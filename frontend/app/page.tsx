@@ -19,7 +19,7 @@ export default function Home() {
     if (!selectedTeam) return;
 
     setLoading(true);
-    getEvents({ team: selectedTeam, limit: 20 })
+    getEvents({ team: selectedTeam, limit: 2000 })
       .then((response) => setEvents(response.data))
       .catch(console.error)
       .finally(() => setLoading(false));
