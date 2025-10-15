@@ -9,9 +9,9 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/alldata", label: "All Data" },
+    { href: "/players", label: "Players" }, // NEW
   ];
-
-  const futureLinks = ["Players", "Teams", "Analytics"];
+  const futureLinks = ["Teams", "Analytics"];
 
   return (
     <header className="bg-gray-900 text-white shadow-lg">

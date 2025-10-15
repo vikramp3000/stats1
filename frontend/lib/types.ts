@@ -32,13 +32,15 @@ export interface EventsResponse {
   offset: number;
 }
 
-export interface PlayerStat {
-  event: string;
-  count: number;
-  successful_count: number;
+export interface Player {
+  player_name: string;
+  team_name: string;
+  total_events: number;
+  successful_events: number;
+  games_played: number;
 }
 
-export interface PlayerStatsResponse {
-  player: string;
-  stats: PlayerStat[];
+export interface PlayersResponse {
+  players: Player[];
+  count: number;
 }
