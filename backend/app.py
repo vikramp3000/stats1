@@ -263,6 +263,44 @@ def get_player_detail(player_name):
         print(f"Error fetching player detail: {e}")
         return jsonify({"error": "Failed to fetch player details"}), 500
 
+# Get all teams with their stats
+@app.route('/api/teams/stats', methods=['GET'])
+def get_teams_stats():
+    """Get list of all teams with their aggregated stats"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                query = """
+                    SELECT 
+                        team_name,
+                        COUNT(DISTINCT game_date) as games_played,
+                        
+                        -- Goals (Shot that is successful = true)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        
+                        -- Shots on goal (unsuccessful)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
+                        
+                        -- Successful Plays (passes)
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes
+                        
+                    FROM play_by_play
+                    WHERE team_name IS NOT NULL
+                    GROUP BY team_name
+                    ORDER BY team_name ASC
+                """
+                
+                cur.execute(query)
+                teams = cur.fetchall()
+        
+        return jsonify({
+            "teams": teams,
+            "count": len(teams)
+        }), 200
+    
+    except Exception as e:
+        print(f"Error fetching team stats: {e}")
+        return jsonify({"error": "Failed to fetch team stats"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

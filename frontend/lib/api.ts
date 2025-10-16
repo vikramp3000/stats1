@@ -1,4 +1,9 @@
-import { EventsResponse, PlayerDetailResponse, PlayersResponse } from "./types";
+import {
+  EventsResponse,
+  PlayerDetailResponse,
+  PlayersResponse,
+  TeamsResponse,
+} from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -53,5 +58,12 @@ export async function getPlayerDetail(
     `/api/players/${encodeURIComponent(playerName)}`
   );
   if (!response.ok) throw new Error("Failed to fetch player details");
+  return response.json();
+}
+
+//this is used to get the list of all teams with stats
+export async function getTeamsStats(): Promise<TeamsResponse> {
+  const response = await fetch("/api/teams/stats");
+  if (!response.ok) throw new Error("Failed to fetch team stats");
   return response.json();
 }

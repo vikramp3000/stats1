@@ -99,3 +99,17 @@ export interface PlayerDetailResponse {
   games: PlayerGame[];
   events_count: number;
 }
+
+// Team stats
+export interface Team {
+  team_name: string;
+  games_played: number;
+  goals: number;
+  shots: number;
+  passes: number;
+}
+
+export interface TeamsResponse {
+  teams: Team[];
+  count: number;
+}

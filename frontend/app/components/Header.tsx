@@ -10,8 +10,9 @@ export default function Header() {
     { href: "/", label: "Home" },
     { href: "/alldata", label: "All Data" },
     { href: "/players", label: "Players" },
+    { href: "/teams", label: "Teams" },
   ];
-  const futureLinks = ["Teams", "Game Flow"];
+  const futureLinks = ["Game Flow"];
 
   return (
     <header className="bg-neutral-100 border-b-[1px] border-neutral-300 py-4">

@@ -5,7 +5,7 @@ import { Player } from "@/lib/types";
 import { cleanTeamName, getInitials } from "@/lib/utils";
 import Link from "next/link";
 import { useState, useMemo } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface PlayersTableProps {
   players: Player[];
@@ -146,7 +146,6 @@ export default function PlayersTable({
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px]">
                   <div className="flex items-center gap-3">
                     <Avatar>
-                      <AvatarImage src="" alt={player.player_name} />
                       <AvatarFallback className="bg-neutral-200">
                         {getInitials(player.player_name)}
                       </AvatarFallback>
