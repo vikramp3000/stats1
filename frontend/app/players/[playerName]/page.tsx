@@ -96,42 +96,38 @@ export default function PlayerDetailPage() {
       {/* Game by Game */}
       <h2 className="text-2xl font-bold mb-4">Game by Game</h2>
       <div className="border-[3px] rounded-sm overflow-hidden">
-        <table className="min-w-full">
-          <thead className="bg-neutral-200">
+        <table className="min-w-full bg-neutral-100">
+          <thead className="bg-neutral-200 font-bold">
             <tr>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left text-main-foreground font-bold">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-left">
                 Date
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left text-main-foreground font-bold">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-left ">
                 Opponent
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center text-main-foreground font-bold">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                 Goals
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center text-main-foreground font-bold">
-                Shots
-              </th>
-              <th className="px-6 py-4 border-b-[3px] border-border text-center text-main-foreground font-bold">
-                Passes
-              </th>
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px]">Shots</th>
+              <th className="px-6 py-4 border-b-[3px] text-center">Passes</th>
             </tr>
           </thead>
           <tbody>
             {games.map((game, index) => (
-              <tr key={index} className="hover:bg-background transition-colors">
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] border-border text-foreground">
+              <tr key={index} className="">
+                <td className="px-6 py-4 border-b-[2px] border-r-[2px] ">
                   {new Date(game.game_date).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] border-border text-foreground">
+                <td className="px-6 py-4 border-b-[2px] border-r-[2px] ">
                   {cleanTeamName(game.opp_team_name)}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] border-border text-center text-foreground">
+                <td className="px-6 py-4 border-b-[2px] border-r-[2px] text-center">
                   {game.goals}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] border-border text-center text-foreground">
+                <td className="px-6 py-4 border-b-[2px] border-r-[2px] text-center">
                   {game.shots}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-border text-center text-foreground">
+                <td className="px-6 py-4 border-b-[2px] text-center">
                   {game.passes}
                 </td>
               </tr>
