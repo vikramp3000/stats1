@@ -67,30 +67,39 @@ export default function PlayerDetailPage() {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        <StatCard label="Games Played" value={player.games_played} />
-        <StatCard label="Total Events" value={player.total_events} />
-        <StatCard label="Goals" value={player.goals} emoji="🥅" />
-        <StatCard label="Shots" value={player.shots} emoji="🏒" />
-        <StatCard label="Passes" value={player.successful_passes} emoji="🎯" />
-        <StatCard label="Faceoff Wins" value={player.faceoff_wins} />
-        <StatCard label="Puck Recoveries" value={player.puck_recoveries} />
-        <StatCard label="Takeaways" value={player.takeaways} />
-        <StatCard label="Zone Entries" value={player.zone_entries} />
-      </div>
+      {/* Stats Grid and Rink Chart - Side by Side */}
+      <div className="flex gap-6 mb-8">
+        {/* Stats Grid - Left Side */}
+        <div className="flex-1">
+          <div className="grid grid-cols-2 gap-4">
+            <StatCard label="Games Played" value={player.games_played} />
+            <StatCard label="Total Events" value={player.total_events} />
+            <StatCard label="Goals" value={player.goals} emoji="🥅" />
+            <StatCard label="Shots" value={player.shots} emoji="🏒" />
+            <StatCard
+              label="Passes"
+              value={player.successful_passes}
+              emoji="🎯"
+            />
+            <StatCard label="Faceoff Wins" value={player.faceoff_wins} />
+            <StatCard label="Puck Recoveries" value={player.puck_recoveries} />
+            <StatCard label="Takeaways" value={player.takeaways} />
+            <StatCard label="Zone Entries" value={player.zone_entries} />
+          </div>
+        </div>
 
-      {/* Rink Chart */}
-      <div className="mb-8">
-        <RinkChart
-          events={events.map((event) => ({
-            x_coord: event.x_coord || 0,
-            y_coord: event.y_coord || 0,
-            event: event.event,
-            event_successful: event.event_successful,
-          }))}
-          title={`${player.player_name} - Shot Chart`}
-        />
+        {/* Rink Chart - Right Side */}
+        <div className="flex-1">
+          <RinkChart
+            events={events.map((event) => ({
+              x_coord: event.x_coord || 0,
+              y_coord: event.y_coord || 0,
+              event: event.event,
+              event_successful: event.event_successful,
+            }))}
+            title={`${player.player_name} - Shot Chart`}
+          />
+        </div>
       </div>
 
       {/* Game by Game */}
@@ -115,19 +124,19 @@ export default function PlayerDetailPage() {
           <tbody>
             {games.map((game, index) => (
               <tr key={index} className="">
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] ">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] ">
                   {new Date(game.game_date).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] ">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] ">
                   {cleanTeamName(game.opp_team_name)}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] text-center">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {game.goals}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] border-r-[2px] text-center">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {game.shots}
                 </td>
-                <td className="px-6 py-4 border-b-[2px] text-center">
+                <td className="px-6 py-4 border-b-[3px] text-center">
                   {game.passes}
                 </td>
               </tr>

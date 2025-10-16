@@ -74,19 +74,19 @@ export default function RinkChart({
   const passes = allValidEvents.filter((e) => e.event === "Play").length;
 
   return (
-    <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base p-6">
-      <h3 className="text-xl font-bold mb-4 text-foreground">{title}</h3>
+    <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-200">
+      <h3 className="text-xl font-bold mb-4">{title}</h3>
 
       {/* Filter Buttons */}
       <div className="flex gap-3 mb-4">
         <Button
           onClick={() => setShowGoals(!showGoals)}
           variant={showGoals ? "default" : "neutral"}
-          size="sm"
-          className={`border-[2px] ${
+          size="lg"
+          className={`border-[3px] rounded-sm font-bold ${
             showGoals
-              ? "bg-red-500 hover:bg-red-600 text-white border-border"
-              : "bg-secondary-background hover:bg-background border-border text-foreground"
+              ? "bg-red-500 border-neutral-800"
+              : "bg-neutral-50 border-neutral-800"
           }`}
         >
           🥅 Goals ({goals})
@@ -95,11 +95,11 @@ export default function RinkChart({
         <Button
           onClick={() => setShowShots(!showShots)}
           variant={showShots ? "default" : "neutral"}
-          size="sm"
-          className={`border-[2px] ${
+          size="lg"
+          className={`border-[3px] rounded-sm font-bold ${
             showShots
-              ? "bg-blue-500 hover:bg-blue-600 text-white border-border"
-              : "bg-secondary-background hover:bg-background border-border text-foreground"
+              ? "bg-blue-500 border-neutral-800"
+              : "bg-neutral-50 border-neutral-800"
           }`}
         >
           🏒 Shots ({shots})
@@ -108,11 +108,11 @@ export default function RinkChart({
         <Button
           onClick={() => setShowPasses(!showPasses)}
           variant={showPasses ? "default" : "neutral"}
-          size="sm"
-          className={`border-[2px] ${
+          size="lg"
+          className={`border-[3px] rounded-sm font-bold ${
             showPasses
-              ? "bg-green-500 hover:bg-green-600 text-white border-border"
-              : "bg-secondary-background hover:bg-background border-border text-foreground"
+              ? "bg-green-500 text-neutral-800 border-neutral-800"
+              : "bg-neutral-50 border-neutral-800"
           }`}
         >
           🎯 Passes ({passes})
@@ -120,11 +120,18 @@ export default function RinkChart({
       </div>
 
       {/* SVG Rink */}
-      <div className="border-[3px] border-border rounded-base overflow-hidden bg-white">
+      <div
+        className="border-[3px] border-neutral-800 rounded-sm overflow-hidden bg-neutral-100 flex justify-center items-center"
+        style={{ minHeight: "850px" }}
+      >
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full"
-          style={{ maxHeight: "400px" }}
+          style={{
+            maxWidth: "800px",
+            transform: "rotate(-90deg)",
+            transformOrigin: "center center",
+          }}
         >
           {/* Ice surface */}
           <rect x="0" y="0" width={width} height={height} fill="#e0f2fe" />
