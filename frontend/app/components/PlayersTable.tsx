@@ -13,12 +13,10 @@ export default function PlayersTable({
   loading = false,
   selectedTeam = "",
 }: PlayersTableProps) {
-  // Loading state
   if (loading) {
     return <p>Loading players...</p>;
   }
 
-  // No results
   if (players.length === 0) {
     return <p className="text-gray-500">No players found.</p>;
   }
@@ -36,7 +34,10 @@ export default function PlayersTable({
           <tr>
             <th className="px-6 py-3 border text-left">Player Name</th>
             <th className="px-6 py-3 border text-left">Team</th>
-            <th className="px-6 py-3 border text-center">Games Played</th>
+            <th className="px-6 py-3 border text-center">Games</th>
+            <th className="px-6 py-3 border text-center">🥅 Goals</th>
+            <th className="px-6 py-3 border text-center">🏒 Shots On Net</th>
+            <th className="px-6 py-3 border text-center">🎯 Passes</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +51,14 @@ export default function PlayersTable({
               </td>
               <td className="px-6 py-3 border text-center">
                 {player.games_played}
+              </td>
+              <td className="px-6 py-3 border text-center font-bold text-red-600">
+                {player.goals}
+              </td>
+
+              <td className="px-6 py-3 border text-center">{player.shots}</td>
+              <td className="px-6 py-3 border text-center text-green-600">
+                {player.successful_plays}
               </td>
             </tr>
           ))}

@@ -98,21 +98,27 @@ def get_teams():
 # Get all players with their stats
 @app.route('/api/players', methods=['GET'])
 def get_players():
-    """Get list of all players with their team and basic stats"""
+    """Get list of all players with their team and stats"""
     try:
-        # Optional filter by team
         team_filter = request.args.get('team')
         
         with get_db_connection() as conn:
             with get_db_cursor(conn) as cur:
-                # Build query to get player info
                 query = """
                     SELECT 
                         player_name,
                         team_name,
-                        COUNT(*) as total_events,
-                        SUM(CASE WHEN event_successful THEN 1 ELSE 0 END) as successful_events,
-                        COUNT(DISTINCT game_date) as games_played
+                        COUNT(DISTINCT game_date) as games_played,
+                        
+                        -- Goals (Shot that is successful = true)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        
+                        -- Successful Plays (passes)
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as successful_plays,
+                        
+                        -- Shots (unsuccessful, event_successful = false)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots
+                        
                     FROM play_by_play
                     WHERE player_name IS NOT NULL
                 """
@@ -138,6 +144,6 @@ def get_players():
     except Exception as e:
         print(f"Error fetching players: {e}")
         return jsonify({"error": "Failed to fetch players"}), 500
-
+        
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
