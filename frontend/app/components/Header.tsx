@@ -9,13 +9,13 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/alldata", label: "All Data" },
-    { href: "/players", label: "Players" }, // NEW
+    { href: "/players", label: "Players" },
   ];
   const futureLinks = ["Teams", "Game Flow"];
 
   return (
-    <header className="bg-gray-900 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-4">
+    <header className="bg-secondary-background border-b-[4px]">
+      <div className="w-3/4 mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
           <Link
@@ -23,7 +23,9 @@ export default function Header() {
             className="flex items-center space-x-2 hover:opacity-80 transition"
           >
             <span className="text-2xl">🏒</span>
-            <span className="text-xl font-bold">NHL Stats</span>
+            <span className="text-xl font-bold text-foreground">
+              Game Stats
+            </span>
           </Link>
 
           {/* Navigation Links */}
@@ -32,10 +34,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition font-medium ${
+                className={`transition font-base pb-[4px] ${
                   pathname === link.href
-                    ? "text-blue-400 border-b-2 border-blue-400"
-                    : "hover:text-blue-400"
+                    ? "text-main border-b-[3px] border-main"
+                    : "text-foreground hover:text-main"
                 }`}
               >
                 {link.label}
@@ -46,7 +48,7 @@ export default function Header() {
             {futureLinks.map((label) => (
               <span
                 key={label}
-                className="text-gray-500 cursor-not-allowed"
+                className="text-foreground/40 cursor-not-allowed"
                 title="Coming soon"
               >
                 {label}
