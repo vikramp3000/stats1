@@ -81,7 +81,7 @@ export interface PlayerEvent {
   situation_type: string;
   goals_for: number;
   goals_against: number;
-  opp_team_name: string;
+  opp_team_name: string; // Add this line
 }
 
 export interface PlayerGame {
@@ -136,6 +136,7 @@ export interface TeamEvent {
   x_coord: number | null;
   y_coord: number | null;
   player_name: string | null;
+  opp_team_name: string; // Add this line
 }
 
 export interface TeamGame {

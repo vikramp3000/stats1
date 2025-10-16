@@ -78,12 +78,25 @@ export default function TeamDetailPage() {
 
         {/* Rink Chart - Right Side */}
         <div className="flex-1">
+          {/* <RinkChart
+            events={events.map((event) => ({
+              x_coord: event.x_coord || 0,
+              y_coord: event.y_coord || 0,
+              event: event.event,
+              event_successful: event.event_successful,
+            }))}
+            title={`${cleanTeamName(team.team_name)} - Shot Chart`}
+          /> */}
           <RinkChart
             events={events.map((event) => ({
               x_coord: event.x_coord || 0,
               y_coord: event.y_coord || 0,
               event: event.event,
               event_successful: event.event_successful,
+              period: event.period,
+              clock_seconds: event.clock_seconds,
+              player_name: event.player_name || "",
+              opp_team_name: event.opp_team_name,
             }))}
             title={`${cleanTeamName(team.team_name)} - Shot Chart`}
           />

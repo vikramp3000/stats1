@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { cleanTeamName } from "@/lib/utils";
 
 interface RinkEvent {
   x_coord: number;
@@ -10,6 +11,8 @@ interface RinkEvent {
   event_successful: boolean;
   period?: number;
   clock_seconds?: number;
+  player_name?: string;
+  opp_team_name?: string;
 }
 
 interface RinkChartProps {
@@ -256,8 +259,21 @@ export default function RinkChart({
                 strokeWidth="1.5"
                 className="hover:opacity-100 transition-opacity cursor-pointer"
               >
+                {/* <title>
+                  {getEventLabel(event)}
+                  {event.period && ` - Period ${event.period}`}
+                  {event.clock_seconds &&
+                    ` - ${Math.floor(event.clock_seconds / 60)}:${(
+                      event.clock_seconds % 60
+                    )
+                      .toString()
+                      .padStart(2, "0")}`}
+                </title> */}
                 <title>
                   {getEventLabel(event)}
+                  {event.player_name && ` - ${event.player_name}`}
+                  {event.opp_team_name &&
+                    ` vs ${cleanTeamName(event.opp_team_name)}`}
                   {event.period && ` - Period ${event.period}`}
                   {event.clock_seconds &&
                     ` - ${Math.floor(event.clock_seconds / 60)}:${(

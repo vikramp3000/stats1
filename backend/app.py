@@ -192,29 +192,6 @@ def get_player_detail(player_name):
                     return jsonify({"error": "Player not found"}), 404
                 
                 # Get all events for this player
-                # events_query = """
-                #     SELECT 
-                #         game_date,
-                #         period,
-                #         clock_seconds,
-                #         event,
-                #         event_successful,
-                #         event_type,
-                #         x_coord,
-                #         y_coord,
-                #         player_name_2,
-                #         event_detail_1,
-                #         event_detail_2,
-                #         event_detail_3,
-                #         situation_type,
-                #         goals_for,
-                #         goals_against,
-                #         opp_team_name
-                #     FROM play_by_play
-                #     WHERE player_name = %s
-                #     ORDER BY game_date DESC, period, clock_seconds DESC
-                #     LIMIT 200
-                # """
                 events_query = """
                     SELECT 
                         period,
@@ -222,7 +199,8 @@ def get_player_detail(player_name):
                         event,
                         event_successful,
                         x_coord,
-                        y_coord
+                        y_coord,
+                        opp_team_name
                     FROM play_by_play
                     WHERE player_name = %s 
                     AND x_coord IS NOT NULL 
@@ -351,7 +329,8 @@ def get_team_detail(team_name):
                         event_successful,
                         x_coord,
                         y_coord,
-                        player_name
+                        player_name,
+                        opp_team_name
                     FROM play_by_play
                     WHERE team_name = %s 
                     AND x_coord IS NOT NULL 
