@@ -22,7 +22,7 @@ export default function TeamFilter({
   teams,
   selectedTeam,
   onTeamChange,
-  label = "Filter by Team",
+  label = "Filter by Team:",
   showAllOption = true,
 }: TeamFilterProps) {
   // Handle value change - convert "all" to empty string for the API
@@ -31,6 +31,7 @@ export default function TeamFilter({
   };
 
   // Convert empty string back to "all" for the Select component
+  // //this is to prevent an error when no team is selected for shadcn
   const selectValue = selectedTeam === "" ? "all" : selectedTeam;
 
   return (
@@ -38,19 +39,18 @@ export default function TeamFilter({
       <label className="block text-sm font-medium">{label}</label>
 
       <Select value={selectValue} onValueChange={handleValueChange}>
-        <SelectTrigger className="w-[250px]">
+        <SelectTrigger className="w-[250px] bg-neutral-200 rounded-sm">
           <SelectValue
             placeholder={showAllOption ? "All Teams" : "-- Select a team --"}
           />
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent className="bg-neutral-200">
           <SelectGroup>
             {showAllOption && <SelectItem value="all">All Teams</SelectItem>}
 
             {teams.map((team) => (
               <SelectItem key={team} value={team}>
-                {/* {team.replace("Olympic (Women) - ", "")} */}
                 {cleanTeamName(team)}
               </SelectItem>
             ))}
@@ -60,39 +60,3 @@ export default function TeamFilter({
     </div>
   );
 }
-// "use client";
-
-// interface TeamFilterProps {
-//   teams: string[];
-//   selectedTeam: string;
-//   onTeamChange: (team: string) => void;
-//   label?: string;
-//   showAllOption?: boolean;
-// }
-
-// export default function TeamFilter({
-//   teams,
-//   selectedTeam,
-//   onTeamChange,
-//   label = "Filter by Team",
-//   showAllOption = true,
-// }: TeamFilterProps) {
-//   return (
-//     <div className="mb-8">
-//       <label className="block text-sm font-medium mb-2">{label}</label>
-//       <select
-//         value={selectedTeam}
-//         onChange={(e) => onTeamChange(e.target.value)}
-//         className="w-full max-w-md p-2 border rounded text-black"
-//       >
-//         {showAllOption && <option value="">All Teams</option>}
-//         {!showAllOption && <option value="">-- Select a team --</option>}
-//         {teams.map((team) => (
-//           <option key={team} value={team}>
-//             {team.replace("Olympic (Women) - ", "")}
-//           </option>
-//         ))}
-//       </select>
-//     </div>
-//   );
-// }

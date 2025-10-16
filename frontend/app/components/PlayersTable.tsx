@@ -86,89 +86,87 @@ export default function PlayersTable({
 
   return (
     <div className="overflow-x-auto">
-      <h2 className="text-2xl font-heading mb-6">
+      <h2 className="text-2xl font-semibold mb-6">
         {selectedTeam
           ? `${players.length} Players`
           : `All ${players.length} Players`}
       </h2>
 
-      <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base overflow-hidden">
+      <div className="overflow-hidden border-[3px] border-neutral-800 rounded-sm">
         <table className="min-w-full">
           <thead>
-            <tr className="bg-main">
+            <tr className="bg-neutral-200">
               <th
                 onClick={() => handleSort("player_name")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-left cursor-pointer"
               >
                 Player Name <SortIcon column="player_name" />
               </th>
               <th
                 onClick={() => handleSort("team_name")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-left cursor-pointer"
               >
                 Team <SortIcon column="team_name" />
               </th>
               <th
                 onClick={() => handleSort("games_played")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-center cursor-pointer"
               >
                 Games <SortIcon column="games_played" />
               </th>
               <th
                 onClick={() => handleSort("goals")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-center cursor-pointer"
               >
                 🥅 Goals <SortIcon column="goals" />
               </th>
               <th
                 onClick={() => handleSort("shots")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-center cursor-pointer"
               >
                 🏒 Shots On Goal <SortIcon column="shots" />
               </th>
               <th
                 onClick={() => handleSort("successful_plays")}
-                className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-center cursor-pointer"
               >
                 🎯 Passes <SortIcon column="successful_plays" />
               </th>
 
-              <th className="px-6 py-4 border-b-[3px] border-border text-center font-bold">
+              <th className="px-6 py-4 border-b-[3px] text-center font-bold">
                 Actions
               </th>
             </tr>
           </thead>
 
           {/* Body */}
-          <tbody className="">
+          <tbody className="bg-neutral-100">
             {sortedPlayers.map((player, index) => (
               <tr key={index} className="">
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px]">
                   <div className="flex items-center gap-3">
                     <Avatar>
                       <AvatarImage src="" alt={player.player_name} />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-neutral-200">
                         {getInitials(player.player_name)}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="font-semibold text-foreground">
-                      {player.player_name}
-                    </span>
+                    <span className="font-semibold">{player.player_name}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-sm text-foreground">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-sm ">
                   {cleanTeamName(player.team_name)}
                 </td>
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center font-base text-foreground">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-base ">
                   {player.games_played}
                 </td>
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center font-base text-foreground">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-base ">
                   {player.goals}
                 </td>
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center font-base text-foreground">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-base">
                   {player.shots}
                 </td>
-                <td className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center font-base text-foreground">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-base">
                   {player.successful_plays}
                 </td>
 
@@ -176,7 +174,7 @@ export default function PlayersTable({
                   <Button
                     asChild
                     size="sm"
-                    className="bg-main hover:bg-main/90 text-main-foreground border-[2px] border-border"
+                    className="border-[2px] bg-neutral-200 hover:bg-neutral-300 rounded-sm"
                   >
                     <Link
                       href={`/players/${encodeURIComponent(

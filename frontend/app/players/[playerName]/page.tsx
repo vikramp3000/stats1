@@ -37,10 +37,7 @@ export default function PlayerDetailPage() {
   if (error || !data) {
     return (
       <main className="min-h-screen p-8 w-3/4 mx-auto">
-        <Link
-          href="/players"
-          className="text-main hover:underline mb-4 inline-block"
-        >
+        <Link href="/players" className="hover:underline mb-4 inline-block">
           ← Back to Players
         </Link>
         <p className="text-red-600">{error || "Player not found"}</p>
@@ -52,11 +49,7 @@ export default function PlayerDetailPage() {
 
   return (
     <main className="min-h-screen p-8 w-3/4 mx-auto">
-      {/* Back Button */}
-      <Link
-        href="/players"
-        className="text-main hover:underline mb-4 inline-block font-base"
-      >
+      <Link href="/players" className="hover:underline mb-4 inline-block">
         ← Back to Players
       </Link>
 
@@ -64,15 +57,13 @@ export default function PlayerDetailPage() {
       <div className="flex items-center gap-4 mb-8">
         <Avatar className="w-20 h-20">
           <AvatarImage src="" alt={player.player_name} />
-          <AvatarFallback className="text-2xl">
+          <AvatarFallback className="text-2xl bg-neutral-200">
             {getInitials(player.player_name)}
           </AvatarFallback>
         </Avatar>
         <div>
           <h1 className="text-4xl font-bold">{player.player_name}</h1>
-          <p className="text-xl text-foreground/70">
-            {cleanTeamName(player.team_name)}
-          </p>
+          <p className="text-xl">{cleanTeamName(player.team_name)}</p>
         </div>
       </div>
 
@@ -104,9 +95,9 @@ export default function PlayerDetailPage() {
 
       {/* Game by Game */}
       <h2 className="text-2xl font-bold mb-4">Game by Game</h2>
-      <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base overflow-hidden">
+      <div className="border-[3px] rounded-sm overflow-hidden">
         <table className="min-w-full">
-          <thead className="bg-main">
+          <thead className="bg-neutral-200">
             <tr>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left text-main-foreground font-bold">
                 Date
@@ -163,7 +154,7 @@ function StatCard({
   emoji?: string;
 }) {
   return (
-    <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base p-4">
+    <div className="border-[3px] border-neutral-800 rounded-sm p-4 bg-neutral-200">
       <p className="text-sm text-foreground/60 mb-1">{label}</p>
       <p className="text-3xl font-bold text-foreground">
         {emoji && <span className="mr-2">{emoji}</span>}

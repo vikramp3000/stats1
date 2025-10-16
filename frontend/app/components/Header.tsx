@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import DarkModeToggle from "./DarkModeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -15,18 +14,13 @@ export default function Header() {
   const futureLinks = ["Teams", "Game Flow"];
 
   return (
-    <header className="bg-secondary-background border-b-[4px]">
+    <header className="bg-neutral-100 border-b-[1px] border-neutral-300 py-4">
       <div className="w-3/4 mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Left: Logo/Brand */}
-          <Link
-            href="/"
-            className="flex items-center space-x-2 hover:opacity-80 transition"
-          >
+          <Link href="/" className="flex items-center space-x-2">
             <span className="text-2xl">🏒</span>
-            <span className="text-xl font-bold text-foreground">
-              Rink Charts
-            </span>
+            <span className="text-xl font-bold">Rink Charts</span>
           </Link>
 
           {/* Center: Navigation Links */}
@@ -35,10 +29,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition font-base pb-[4px] ${
+                className={`font-light pb-[4px] ${
                   pathname === link.href
-                    ? "text-main border-b-[3px] border-main"
-                    : "text-foreground hover:text-main"
+                    ? "border-b-[1px] text-blue-900 border-blue-900"
+                    : "border-b-[1px] border-transparent hover:text-blue-900"
                 }`}
               >
                 {link.label}
@@ -56,9 +50,6 @@ export default function Header() {
               </span>
             ))}
           </nav>
-
-          {/* Right: Dark Mode Toggle */}
-          <DarkModeToggle />
         </div>
       </div>
     </header>
