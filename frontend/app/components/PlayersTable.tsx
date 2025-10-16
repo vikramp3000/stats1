@@ -95,7 +95,7 @@ export default function PlayersTable({
       <div className="overflow-hidden border-[3px] border-neutral-800 rounded-sm">
         <table className="min-w-full">
           <thead>
-            <tr className="bg-neutral-200">
+            <tr className="bg-neutral-300">
               <th
                 onClick={() => handleSort("player_name")}
                 className="px-6 py-4 border-b-[3px] border-r-[3px] text-left cursor-pointer"
@@ -146,7 +146,7 @@ export default function PlayersTable({
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px]">
                   <div className="flex items-center gap-3">
                     <Avatar>
-                      <AvatarFallback className="bg-neutral-200">
+                      <AvatarFallback className="bg-neutral-300">
                         {getInitials(player.player_name)}
                       </AvatarFallback>
                     </Avatar>
@@ -173,7 +173,7 @@ export default function PlayersTable({
                   <Button
                     asChild
                     size="sm"
-                    className="border-[2px] bg-neutral-200 hover:bg-neutral-300 rounded-sm"
+                    className="border-[2px] bg-neutral-300 hover:bg-neutral-200 rounded-sm"
                   >
                     <Link
                       href={`/players/${encodeURIComponent(

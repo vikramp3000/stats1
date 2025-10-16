@@ -77,7 +77,7 @@ export default function RinkChart({
   const passes = allValidEvents.filter((e) => e.event === "Play").length;
 
   return (
-    <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-200">
+    <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-300">
       <h3 className="text-xl font-bold mb-4">{title}</h3>
 
       {/* Filter Buttons */}

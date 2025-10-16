@@ -39,13 +39,13 @@ export default function TeamFilter({
       <label className="block text-sm font-medium">{label}</label>
 
       <Select value={selectValue} onValueChange={handleValueChange}>
-        <SelectTrigger className="w-[250px] bg-neutral-200 rounded-sm">
+        <SelectTrigger className="w-[250px] bg-neutral-300 rounded-sm">
           <SelectValue
             placeholder={showAllOption ? "All Teams" : "-- Select a team --"}
           />
         </SelectTrigger>
 
-        <SelectContent className="bg-neutral-200">
+        <SelectContent className="bg-neutral-300">
           <SelectGroup>
             {showAllOption && <SelectItem value="all">All Teams</SelectItem>}
 

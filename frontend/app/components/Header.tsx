@@ -15,7 +15,7 @@ export default function Header() {
   const futureLinks = ["Game Flow"];
 
   return (
-    <header className="bg-neutral-100 border-b-[1px] border-neutral-300 py-4">
+    <header className="bg-neutral-300 border-b-[1px] border-neutral-800 py-4">
       <div className="w-3/4 mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Left: Logo/Brand */}

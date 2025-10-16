@@ -57,8 +57,7 @@ export default function PlayerDetailPage() {
       {/* Player Header */}
       <div className="flex items-center gap-4 mb-8">
         <Avatar className="w-20 h-20">
-          <AvatarImage src="" alt={player.player_name} />
-          <AvatarFallback className="text-2xl bg-neutral-200">
+          <AvatarFallback className="text-2xl bg-neutral-300">
             {getInitials(player.player_name)}
           </AvatarFallback>
         </Avatar>
@@ -91,15 +90,6 @@ export default function PlayerDetailPage() {
 
         {/* Rink Chart - Right Side */}
         <div className="flex-1">
-          {/* <RinkChart
-            events={events.map((event) => ({
-              x_coord: event.x_coord || 0,
-              y_coord: event.y_coord || 0,
-              event: event.event,
-              event_successful: event.event_successful,
-            }))}
-            title={`${player.player_name} - Shot Chart`}
-          /> */}
           <RinkChart
             events={events.map((event) => ({
               x_coord: event.x_coord || 0,
@@ -119,7 +109,7 @@ export default function PlayerDetailPage() {
       <h2 className="text-2xl font-bold mb-4">Game by Game</h2>
       <div className="border-[3px] rounded-sm overflow-hidden">
         <table className="min-w-full bg-neutral-100">
-          <thead className="bg-neutral-200 font-bold">
+          <thead className="bg-neutral-300 font-bold">
             <tr>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-left">
                 Date
@@ -160,24 +150,3 @@ export default function PlayerDetailPage() {
     </main>
   );
 }
-
-// Stat Card Component
-// function StatCard({
-//   label,
-//   value,
-//   emoji,
-// }: {
-//   label: string;
-//   value: number;
-//   emoji?: string;
-// }) {
-//   return (
-//     <div className="border-[3px] border-neutral-800 rounded-sm p-4 bg-neutral-200">
-//       <p className="text-sm mb-1">{label}</p>
-//       <p className="text-2xl font-bold">
-//         {emoji && <span className="mr-2">{emoji}</span>}
-//         {value}
-//       </p>
-//     </div>
-//   );
-// }
