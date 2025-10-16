@@ -1,6 +1,7 @@
 "use client";
 
 import { Player } from "@/lib/types";
+import Link from "next/link";
 
 interface PlayersTableProps {
   players: Player[];
@@ -36,8 +37,10 @@ export default function PlayersTable({
             <th className="px-6 py-3 border text-left">Team</th>
             <th className="px-6 py-3 border text-center">Games</th>
             <th className="px-6 py-3 border text-center">🥅 Goals</th>
-            <th className="px-6 py-3 border text-center">🏒 Shots On Net</th>
-            <th className="px-6 py-3 border text-center">🎯 Passes</th>
+            <th className="px-6 py-3 border text-center">🎯 Plays</th>
+            <th className="px-6 py-3 border text-center">🏒 Shots</th>
+            <th className="px-6 py-3 border text-center">Actions</th>{" "}
+            {/* NEW */}
           </tr>
         </thead>
         <tbody>
@@ -55,10 +58,18 @@ export default function PlayersTable({
               <td className="px-6 py-3 border text-center font-bold text-red-600">
                 {player.goals}
               </td>
-
-              <td className="px-6 py-3 border text-center">{player.shots}</td>
               <td className="px-6 py-3 border text-center text-green-600">
                 {player.successful_plays}
+              </td>
+              <td className="px-6 py-3 border text-center">{player.shots}</td>
+              {/* NEW: View Details Button */}
+              <td className="px-6 py-3 border text-center">
+                <Link
+                  href={`/players/${encodeURIComponent(player.player_name)}`}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition"
+                >
+                  View Details
+                </Link>
               </td>
             </tr>
           ))}
