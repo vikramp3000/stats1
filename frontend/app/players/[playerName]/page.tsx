@@ -7,6 +7,7 @@ import { getPlayerDetail } from "@/lib/api";
 import { PlayerDetailResponse } from "@/lib/types";
 import { cleanTeamName, getInitials } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import RinkChart from "@/app/components/RinkChart";
 
 export default function PlayerDetailPage() {
   const params = useParams();
@@ -47,7 +48,7 @@ export default function PlayerDetailPage() {
     );
   }
 
-  const { player, games } = data;
+  const { player, games, events } = data;
 
   return (
     <main className="min-h-screen p-8 w-3/4 mx-auto">
@@ -68,9 +69,7 @@ export default function PlayerDetailPage() {
           </AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="text-4xl font-heading font-bold">
-            {player.player_name}
-          </h1>
+          <h1 className="text-4xl font-bold">{player.player_name}</h1>
           <p className="text-xl text-foreground/70">
             {cleanTeamName(player.team_name)}
           </p>
@@ -90,25 +89,38 @@ export default function PlayerDetailPage() {
         <StatCard label="Zone Entries" value={player.zone_entries} />
       </div>
 
+      {/* Rink Chart */}
+      <div className="mb-8">
+        <RinkChart
+          events={events.map((event) => ({
+            x_coord: event.x_coord || 0,
+            y_coord: event.y_coord || 0,
+            event: event.event,
+            event_successful: event.event_successful,
+          }))}
+          title={`${player.player_name} - Shot Chart`}
+        />
+      </div>
+
       {/* Game by Game */}
-      <h2 className="text-2xl font-heading font-bold mb-4">Game by Game</h2>
+      <h2 className="text-2xl font-bold mb-4">Game by Game</h2>
       <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base overflow-hidden">
         <table className="min-w-full">
           <thead className="bg-main">
             <tr>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left text-main-foreground font-bold">
                 Date
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-left text-main-foreground font-bold">
                 Opponent
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center text-main-foreground font-bold">
                 Goals
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center">
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] border-border text-center text-main-foreground font-bold">
                 Shots
               </th>
-              <th className="px-6 py-4 border-b-[3px] border-border text-center">
+              <th className="px-6 py-4 border-b-[3px] border-border text-center text-main-foreground font-bold">
                 Passes
               </th>
             </tr>
@@ -153,7 +165,7 @@ function StatCard({
   return (
     <div className="border-[3px] border-border bg-secondary-background shadow-[var(--shadow)] rounded-base p-4">
       <p className="text-sm text-foreground/60 mb-1">{label}</p>
-      <p className="text-3xl font-heading font-bold text-foreground">
+      <p className="text-3xl font-bold text-foreground">
         {emoji && <span className="mr-2">{emoji}</span>}
         {value}
       </p>
