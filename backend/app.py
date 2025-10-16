@@ -144,6 +144,110 @@ def get_players():
     except Exception as e:
         print(f"Error fetching players: {e}")
         return jsonify({"error": "Failed to fetch players"}), 500
+
+# Get detailed stats for a specific player
+@app.route('/api/players/<player_name>', methods=['GET'])
+def get_player_detail(player_name):
+    """Get detailed statistics and all events for a specific player"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                # Get player summary stats
+                summary_query = """
+                    SELECT 
+                        player_name,
+                        team_name,
+                        COUNT(DISTINCT game_date) as games_played,
+                        COUNT(*) as total_events,
+                        
+                        -- Goals
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        
+                        -- Shots on goal (unsuccessful)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
+                        
+                        -- Successful passes
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as successful_passes,
+                        
+                        -- Incomplete passes
+                        SUM(CASE WHEN event = 'Play' AND event_successful = false THEN 1 ELSE 0 END) as incomplete_passes,
+                        
+                        -- Other events
+                        SUM(CASE WHEN event = 'Faceoff Win' THEN 1 ELSE 0 END) as faceoff_wins,
+                        SUM(CASE WHEN event = 'Puck Recovery' THEN 1 ELSE 0 END) as puck_recoveries,
+                        SUM(CASE WHEN event = 'Takeaway' THEN 1 ELSE 0 END) as takeaways,
+                        SUM(CASE WHEN event = 'Zone Entry' THEN 1 ELSE 0 END) as zone_entries,
+                        SUM(CASE WHEN event = 'Dump In/Out' THEN 1 ELSE 0 END) as dump_ins_outs,
+                        SUM(CASE WHEN event = 'Penalty Taken' THEN 1 ELSE 0 END) as penalties
+                        
+                    FROM play_by_play
+                    WHERE player_name = %s
+                    GROUP BY player_name, team_name
+                """
+                
+                cur.execute(summary_query, (player_name,))
+                summary = cur.fetchone()
+                
+                if not summary:
+                    return jsonify({"error": "Player not found"}), 404
+                
+                # Get all events for this player
+                events_query = """
+                    SELECT 
+                        game_date,
+                        period,
+                        clock_seconds,
+                        event,
+                        event_successful,
+                        event_type,
+                        x_coord,
+                        y_coord,
+                        player_name_2,
+                        event_detail_1,
+                        event_detail_2,
+                        event_detail_3,
+                        situation_type,
+                        goals_for,
+                        goals_against,
+                        opp_team_name
+                    FROM play_by_play
+                    WHERE player_name = %s
+                    ORDER BY game_date DESC, period, clock_seconds DESC
+                    LIMIT 200
+                """
+                
+                cur.execute(events_query, (player_name,))
+                events = cur.fetchall()
+                
+                # Get game-by-game breakdown
+                games_query = """
+                    SELECT 
+                        game_date,
+                        opp_team_name,
+                        COUNT(*) as total_events,
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes
+                    FROM play_by_play
+                    WHERE player_name = %s
+                    GROUP BY game_date, opp_team_name
+                    ORDER BY game_date DESC
+                """
+                
+                cur.execute(games_query, (player_name,))
+                games = cur.fetchall()
         
+        return jsonify({
+            "player": summary,
+            "events": events,
+            "games": games,
+            "events_count": len(events)
+        }), 200
+    
+    except Exception as e:
+        print(f"Error fetching player detail: {e}")
+        return jsonify({"error": "Failed to fetch player details"}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

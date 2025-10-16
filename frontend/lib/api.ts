@@ -1,4 +1,4 @@
-import { EventsResponse, PlayersResponse } from "./types";
+import { EventsResponse, PlayerDetailResponse, PlayersResponse } from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -42,5 +42,16 @@ export async function getPlayers(team?: string): Promise<PlayersResponse> {
 
   const response = await fetch(url);
   if (!response.ok) throw new Error("Failed to fetch players");
+  return response.json();
+}
+
+//this is used to get the detailed stats for a specific player
+export async function getPlayerDetail(
+  playerName: string
+): Promise<PlayerDetailResponse> {
+  const response = await fetch(
+    `/api/players/${encodeURIComponent(playerName)}`
+  );
+  if (!response.ok) throw new Error("Failed to fetch player details");
   return response.json();
 }
