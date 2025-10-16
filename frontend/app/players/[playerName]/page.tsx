@@ -8,6 +8,7 @@ import { PlayerDetailResponse } from "@/lib/types";
 import { cleanTeamName, getInitials } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import RinkChart from "@/app/components/RinkChart";
+import StatCard from "@/app/components/StatCard";
 
 export default function PlayerDetailPage() {
   const params = useParams();
@@ -149,22 +150,22 @@ export default function PlayerDetailPage() {
 }
 
 // Stat Card Component
-function StatCard({
-  label,
-  value,
-  emoji,
-}: {
-  label: string;
-  value: number;
-  emoji?: string;
-}) {
-  return (
-    <div className="border-[3px] border-neutral-800 rounded-sm p-4 bg-neutral-200">
-      <p className="text-sm text-foreground/60 mb-1">{label}</p>
-      <p className="text-3xl font-bold text-foreground">
-        {emoji && <span className="mr-2">{emoji}</span>}
-        {value}
-      </p>
-    </div>
-  );
-}
+// function StatCard({
+//   label,
+//   value,
+//   emoji,
+// }: {
+//   label: string;
+//   value: number;
+//   emoji?: string;
+// }) {
+//   return (
+//     <div className="border-[3px] border-neutral-800 rounded-sm p-4 bg-neutral-200">
+//       <p className="text-sm mb-1">{label}</p>
+//       <p className="text-2xl font-bold">
+//         {emoji && <span className="mr-2">{emoji}</span>}
+//         {value}
+//       </p>
+//     </div>
+//   );
+// }
