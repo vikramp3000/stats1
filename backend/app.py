@@ -302,5 +302,94 @@ def get_teams_stats():
         print(f"Error fetching team stats: {e}")
         return jsonify({"error": "Failed to fetch team stats"}), 500
 
+# Get detailed stats for a specific team
+@app.route('/api/teams/<team_name>', methods=['GET'])
+def get_team_detail(team_name):
+    """Get detailed statistics and all events for a specific team"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                # Get team summary stats
+                summary_query = """
+                    SELECT 
+                        team_name,
+                        COUNT(DISTINCT game_date) as games_played,
+                        COUNT(*) as total_events,
+                        
+                        -- Goals
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        
+                        -- Shots on goal (unsuccessful)
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
+                        
+                        -- Successful passes
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes,
+                        
+                        -- Other events
+                        SUM(CASE WHEN event = 'Faceoff Win' THEN 1 ELSE 0 END) as faceoff_wins,
+                        SUM(CASE WHEN event = 'Puck Recovery' THEN 1 ELSE 0 END) as puck_recoveries,
+                        SUM(CASE WHEN event = 'Takeaway' THEN 1 ELSE 0 END) as takeaways,
+                        SUM(CASE WHEN event = 'Zone Entry' THEN 1 ELSE 0 END) as zone_entries
+                        
+                    FROM play_by_play
+                    WHERE team_name = %s
+                    GROUP BY team_name
+                """
+                
+                cur.execute(summary_query, (team_name,))
+                summary = cur.fetchone()
+                
+                if not summary:
+                    return jsonify({"error": "Team not found"}), 404
+                
+                # Get events with coordinates for the shot chart
+                events_query = """
+                    SELECT 
+                        period,
+                        clock_seconds,
+                        event,
+                        event_successful,
+                        x_coord,
+                        y_coord,
+                        player_name
+                    FROM play_by_play
+                    WHERE team_name = %s 
+                    AND x_coord IS NOT NULL 
+                    AND event IN ('Shot', 'Play')
+                    ORDER BY game_date DESC
+                """
+                
+                cur.execute(events_query, (team_name,))
+                events = cur.fetchall()
+                
+                # Get game-by-game breakdown
+                games_query = """
+                    SELECT 
+                        game_date,
+                        opp_team_name,
+                        COUNT(*) as total_events,
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
+                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
+                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes
+                    FROM play_by_play
+                    WHERE team_name = %s
+                    GROUP BY game_date, opp_team_name
+                    ORDER BY game_date DESC
+                """
+                
+                cur.execute(games_query, (team_name,))
+                games = cur.fetchall()
+        
+        return jsonify({
+            "team": summary,
+            "events": events,
+            "games": games,
+            "events_count": len(events)
+        }), 200
+    
+    except Exception as e:
+        print(f"Error fetching team detail: {e}")
+        return jsonify({"error": "Failed to fetch team details"}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

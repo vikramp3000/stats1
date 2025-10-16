@@ -2,6 +2,7 @@ import {
   EventsResponse,
   PlayerDetailResponse,
   PlayersResponse,
+  TeamDetailResponse,
   TeamsResponse,
 } from "./types";
 
@@ -65,5 +66,14 @@ export async function getPlayerDetail(
 export async function getTeamsStats(): Promise<TeamsResponse> {
   const response = await fetch("/api/teams/stats");
   if (!response.ok) throw new Error("Failed to fetch team stats");
+  return response.json();
+}
+
+//this is used to get the detailed stats for a specific team
+export async function getTeamDetail(
+  teamName: string
+): Promise<TeamDetailResponse> {
+  const response = await fetch(`/api/teams/${encodeURIComponent(teamName)}`);
+  if (!response.ok) throw new Error("Failed to fetch team details");
   return response.json();
 }

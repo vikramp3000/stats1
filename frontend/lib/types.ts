@@ -113,3 +113,43 @@ export interface TeamsResponse {
   teams: Team[];
   count: number;
 }
+
+//Team detail stats
+export interface TeamDetail {
+  team_name: string;
+  games_played: number;
+  total_events: number;
+  goals: number;
+  shots: number;
+  passes: number;
+  faceoff_wins: number;
+  puck_recoveries: number;
+  takeaways: number;
+  zone_entries: number;
+}
+
+export interface TeamEvent {
+  period: number;
+  clock_seconds: number;
+  event: string;
+  event_successful: boolean;
+  x_coord: number | null;
+  y_coord: number | null;
+  player_name: string | null;
+}
+
+export interface TeamGame {
+  game_date: string;
+  opp_team_name: string;
+  total_events: number;
+  goals: number;
+  shots: number;
+  passes: number;
+}
+
+export interface TeamDetailResponse {
+  team: TeamDetail;
+  events: TeamEvent[];
+  games: TeamGame[];
+  events_count: number;
+}

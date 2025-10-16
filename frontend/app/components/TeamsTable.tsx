@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Team } from "@/lib/types";
 import { cleanTeamName } from "@/lib/utils";
+import Link from "next/link";
 import { useState, useMemo } from "react";
 
 interface TeamsTableProps {
@@ -107,9 +109,12 @@ export default function TeamsTable({
               </th>
               <th
                 onClick={() => handleSort("passes")}
-                className="px-6 py-4 border-b-[3px] text-center cursor-pointer"
+                className="px-6 py-4 border-b-[3px] border-r-[3px] text-center cursor-pointer"
               >
                 🎯 Passes <SortIcon column="passes" />
+              </th>
+              <th className="px-6 py-4 border-b-[3px] text-center font-bold">
+                Actions
               </th>
             </tr>
           </thead>
@@ -129,8 +134,19 @@ export default function TeamsTable({
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {team.shots}
                 </td>
-                <td className="px-6 py-4 border-b-[3px] text-center">
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {team.passes}
+                </td>
+                <td className="px-6 py-4 border-b-[3px] text-center">
+                  <Button
+                    asChild
+                    size="sm"
+                    className="border-[2px] bg-neutral-200 hover:bg-neutral-300 rounded-sm"
+                  >
+                    <Link href={`/teams/${encodeURIComponent(team.team_name)}`}>
+                      View Details
+                    </Link>
+                  </Button>
                 </td>
               </tr>
             ))}
