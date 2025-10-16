@@ -200,3 +200,14 @@
     @apply font-heading;
   }
 }
+
+/* .bg-grid-pattern {
+  background-image: linear-gradient(
+      to right,
+      oklch(0% 0 0 / 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, oklch(0% 0 0 / 0.1) 1px, transparent 1px);
+  background-size: 120px 120px;
+  background-position: -1px -1px;
+} */

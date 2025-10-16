@@ -10,3 +10,12 @@ export function cleanTeamName(teamName: string): string {
     .replace("Olympic (Women) - ", "")
     .replace("Olympic Athletes from ", "");
 }
+
+export function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2); // Take first 2 letters
+}

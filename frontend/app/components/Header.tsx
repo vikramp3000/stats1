@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -17,18 +18,18 @@ export default function Header() {
     <header className="bg-secondary-background border-b-[4px]">
       <div className="w-3/4 mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo/Brand */}
+          {/* Left: Logo/Brand */}
           <Link
             href="/"
             className="flex items-center space-x-2 hover:opacity-80 transition"
           >
             <span className="text-2xl">🏒</span>
-            <span className="text-xl font-bold text-foreground">
-              Game Stats
+            <span className="text-xl font-heading font-bold text-foreground">
+              NHL Stats
             </span>
           </Link>
 
-          {/* Navigation Links */}
+          {/* Center: Navigation Links */}
           <nav className="flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link
@@ -55,6 +56,9 @@ export default function Header() {
               </span>
             ))}
           </nav>
+
+          {/* Right: Dark Mode Toggle */}
+          <DarkModeToggle />
         </div>
       </div>
     </header>
