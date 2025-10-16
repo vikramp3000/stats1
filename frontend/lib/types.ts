@@ -35,8 +35,8 @@ export interface EventsResponse {
 export interface Player {
   player_name: string;
   team_name: string;
-  total_events: number;
-  successful_events: number;
+  // total_events: number;
+  // successful_events: number;
   games_played: number;
 }
 

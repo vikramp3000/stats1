@@ -11,7 +11,7 @@ export default function Header() {
     { href: "/alldata", label: "All Data" },
     { href: "/players", label: "Players" }, // NEW
   ];
-  const futureLinks = ["Teams", "Analytics"];
+  const futureLinks = ["Teams", "Game Flow"];
 
   return (
     <header className="bg-gray-900 text-white shadow-lg">

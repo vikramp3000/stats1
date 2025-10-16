@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { getTeams, getEvents } from "@/lib/api";
-import TeamSelector from "@/app/components/TeamSelector";
-import EventsTable from "@/app/components/EventsTable";
 import { PlayByPlayEvent } from "@/lib/types";
+import TeamFilter from "@/app/components/TeamFilter";
+import EventsTable from "@/app/components/EventsTable";
 
 export default function AllDataPage() {
   const [teams, setTeams] = useState<string[]>([]);
@@ -12,12 +12,10 @@ export default function AllDataPage() {
   const [events, setEvents] = useState<PlayByPlayEvent[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch teams on mount
   useEffect(() => {
     getTeams().then(setTeams).catch(console.error);
   }, []);
 
-  // Fetch events when team changes
   useEffect(() => {
     if (!selectedTeam) return;
 
@@ -30,12 +28,14 @@ export default function AllDataPage() {
 
   return (
     <main className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">All Play-by-Play Data 🏒</h1>
+      <h1 className="text-3xl font-bold mb-8">Play-by-Play Events</h1>
 
-      <TeamSelector
+      <TeamFilter
         teams={teams}
         selectedTeam={selectedTeam}
         onTeamChange={setSelectedTeam}
+        label="Select Team"
+        showAllOption={false}
       />
 
       <EventsTable events={events} loading={loading} />
