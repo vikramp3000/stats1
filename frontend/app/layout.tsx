@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NHL Stats Dashboard",
+  title: "Game Stats Dashboard",
   description: "Women's Olympic Hockey Play-by-Play Data",
 };
 

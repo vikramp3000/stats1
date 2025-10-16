@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center p-8">
       <div className="text-center">
-        <h1 className="text-6xl font-bold mb-4">🏒 NHL Stats</h1>
+        <h1 className="text-6xl font-bold mb-4">🏒 Game Stats</h1>
         <p className="text-xl text-gray-600 mb-8">
           Women's Olympic Hockey Play-by-Play Data
         </p>

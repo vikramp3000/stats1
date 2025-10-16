@@ -24,8 +24,8 @@ export default function Header() {
             className="flex items-center space-x-2 hover:opacity-80 transition"
           >
             <span className="text-2xl">🏒</span>
-            <span className="text-xl font-heading font-bold text-foreground">
-              NHL Stats
+            <span className="text-xl font-bold text-foreground">
+              Game Stats
             </span>
           </Link>
 
