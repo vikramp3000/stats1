@@ -406,5 +406,58 @@ def get_team_detail(team_name):
         print(f"Error fetching team detail: {e}")
         return jsonify({"error": "Failed to fetch team details"}), 500
 
+# Get team averages for comparison
+@app.route('/api/teams/<team_name>/averages', methods=['GET'])
+def get_team_averages(team_name):
+    """Get average stats for a team (for player comparison)"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                query = """
+                    SELECT 
+                        COUNT(DISTINCT player_name) as total_players,
+                        AVG(goals_per_player) as avg_goals,
+                        AVG(shots_per_player) as avg_shots,
+                        AVG(shooting_pct) as avg_shooting_pct,
+                        AVG(pass_completion_pct) as avg_pass_completion_pct
+                    FROM (
+                        SELECT 
+                            player_name,
+                            SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals_per_player,
+                            SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots_per_player,
+                            CASE 
+                                WHEN (SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) + 
+                                      SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END)) > 0
+                                THEN (SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END)::float / 
+                                     (SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) + 
+                                      SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END))) * 100
+                                ELSE 0
+                            END as shooting_pct,
+                            CASE 
+                                WHEN (SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) + 
+                                      SUM(CASE WHEN event = 'Play' AND event_successful = false THEN 1 ELSE 0 END)) > 0
+                                THEN (SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END)::float / 
+                                     (SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) + 
+                                      SUM(CASE WHEN event = 'Play' AND event_successful = false THEN 1 ELSE 0 END))) * 100
+                                ELSE 0
+                            END as pass_completion_pct
+                        FROM play_by_play
+                        WHERE team_name = %s AND player_name IS NOT NULL
+                        GROUP BY player_name
+                    ) player_stats
+                """
+                
+                cur.execute(query, (team_name,))
+                result = cur.fetchone()
+                
+                if not result:
+                    return jsonify({"error": "Team not found"}), 404
+                
+                return jsonify(result), 200
+    
+    except Exception as e:
+        print(f"Error fetching team averages: {e}")
+        return jsonify({"error": "Failed to fetch team averages"}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

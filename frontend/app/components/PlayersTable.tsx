@@ -173,7 +173,7 @@ export default function PlayersTable({
                   <Button
                     asChild
                     size="sm"
-                    className="border-[2px] bg-neutral-300 hover:bg-neutral-200 rounded-sm"
+                    className="border-[3px] bg-neutral-300 hover:bg-neutral-200 rounded-sm"
                   >
                     <Link
                       href={`/players/${encodeURIComponent(

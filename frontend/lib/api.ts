@@ -2,6 +2,7 @@ import {
   EventsResponse,
   PlayerDetailResponse,
   PlayersResponse,
+  TeamAverages,
   TeamDetailResponse,
   TeamsResponse,
 } from "./types";
@@ -75,5 +76,14 @@ export async function getTeamDetail(
 ): Promise<TeamDetailResponse> {
   const response = await fetch(`/api/teams/${encodeURIComponent(teamName)}`);
   if (!response.ok) throw new Error("Failed to fetch team details");
+  return response.json();
+}
+
+//this is used to get team averages for comparison
+export async function getTeamAverages(teamName: string): Promise<TeamAverages> {
+  const response = await fetch(
+    `/api/teams/${encodeURIComponent(teamName)}/averages`
+  );
+  if (!response.ok) throw new Error("Failed to fetch team averages");
   return response.json();
 }

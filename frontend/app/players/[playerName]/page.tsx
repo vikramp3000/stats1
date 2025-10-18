@@ -3,8 +3,8 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getPlayerDetail } from "@/lib/api";
-import { PlayerDetailResponse } from "@/lib/types";
+import { getPlayerDetail, getTeamAverages } from "@/lib/api";
+import { PlayerDetailResponse, TeamAverages } from "@/lib/types";
 import { cleanTeamName, getInitials } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import RinkChart from "@/app/components/RinkChart";
@@ -14,12 +14,18 @@ export default function PlayerDetailPage() {
   const params = useParams();
   const playerName = decodeURIComponent(params.playerName as string);
   const [data, setData] = useState<PlayerDetailResponse | null>(null);
+  const [teamAverages, setTeamAverages] = useState<TeamAverages | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getPlayerDetail(playerName)
-      .then(setData)
+      .then((playerData) => {
+        setData(playerData);
+        // Fetch team averages after we have player data
+        return getTeamAverages(playerData.player.team_name);
+      })
+      .then(setTeamAverages)
       .catch((err) => {
         console.error(err);
         setError("Failed to load player data");
@@ -61,7 +67,7 @@ export default function PlayerDetailPage() {
       : 0;
 
   return (
-    <main className="min-h-screen p-8 w-3/4 mx-auto">
+    <main className="min-h-screen p-8 w-[60%] mx-auto">
       <Link href="/players" className="hover:underline mb-4 inline-block">
         ← Back to Players
       </Link>
@@ -106,6 +112,78 @@ export default function PlayerDetailPage() {
             <StatCard label="Penalties" value={player.penalties} />
             <StatCard label="Dump Ins/Outs" value={player.dump_ins_outs} />
           </div>
+          {/* Performance vs Team Card */}
+          {teamAverages && (
+            <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-300 mb-8 w-full mt-[82px]">
+              <h2 className="text-2xl font-bold mb-4">
+                🏆 Performance vs Team
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Shooting % Comparison */}
+                <div className="p-4 bg-neutral-100 rounded border-[3px] border-neutral-800">
+                  <p className="text-sm text-neutral-600 mb-1">Shooting %</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold">{shootingPct}%</span>
+                    {Number(shootingPct) > teamAverages.avg_shooting_pct ? (
+                      <span className="text-green-600 font-semibold">
+                        ↑ +
+                        {(
+                          Number(shootingPct) - teamAverages.avg_shooting_pct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">
+                        ↓{" "}
+                        {(
+                          Number(shootingPct) - teamAverages.avg_shooting_pct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500 mt-1">
+                    Team avg: {teamAverages.avg_shooting_pct.toFixed(1)}%
+                  </p>
+                </div>
+
+                {/* Pass Completion % Comparison */}
+                <div className="p-4 bg-neutral-100 rounded border-[3px] border-neutral-800">
+                  <p className="text-sm text-neutral-600 mb-1">
+                    Pass Completion %
+                  </p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold">
+                      {passCompletionPct}%
+                    </span>
+                    {Number(passCompletionPct) >
+                    teamAverages.avg_pass_completion_pct ? (
+                      <span className="text-green-600 font-semibold">
+                        ↑ +
+                        {(
+                          Number(passCompletionPct) -
+                          teamAverages.avg_pass_completion_pct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">
+                        ↓{" "}
+                        {(
+                          Number(passCompletionPct) -
+                          teamAverages.avg_pass_completion_pct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500 mt-1">
+                    Team avg: {teamAverages.avg_pass_completion_pct.toFixed(1)}%
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Rink Chart - Right Side */}

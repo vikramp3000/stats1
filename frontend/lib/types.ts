@@ -165,3 +165,12 @@ export interface TeamDetailResponse {
   games: TeamGame[];
   events_count: number;
 }
+
+//average stats for a team
+export interface TeamAverages {
+  total_players: number;
+  avg_goals: number;
+  avg_shots: number;
+  avg_shooting_pct: number;
+  avg_pass_completion_pct: number;
+}

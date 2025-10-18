@@ -27,10 +27,9 @@ export default function PlayersPage() {
   }, [selectedTeam]);
 
   return (
-    <main className="min-h-screen p-8 w-3/4 mx-auto">
+    <main className="min-h-screen p-8 w-[60%] mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold mb-8">Players 🏒</h1>
-
         <TeamFilter
           teams={teams}
           selectedTeam={selectedTeam}
