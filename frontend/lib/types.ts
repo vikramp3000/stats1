@@ -47,7 +47,6 @@ export interface PlayersResponse {
 }
 
 // Detailed player stats
-
 export interface PlayerDetail {
   player_name: string;
   team_name: string;
@@ -78,10 +77,9 @@ export interface PlayerEvent {
   event_detail_1: string | null;
   event_detail_2: string | null;
   event_detail_3: string | null;
-  situation_type: string;
   goals_for: number;
   goals_against: number;
-  opp_team_name: string; // Add this line
+  opp_team_name: string;
 }
 
 export interface PlayerGame {
@@ -126,6 +124,8 @@ export interface TeamDetail {
   puck_recoveries: number;
   takeaways: number;
   zone_entries: number;
+  dump_ins_outs: number;
+  penalties: number;
 }
 
 export interface TeamEvent {
@@ -136,7 +136,8 @@ export interface TeamEvent {
   x_coord: number | null;
   y_coord: number | null;
   player_name: string | null;
-  opp_team_name: string; // Add this line
+  opp_team_name: string;
+  event_type: string | null;
 }
 
 export interface TeamGame {

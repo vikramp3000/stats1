@@ -69,24 +69,17 @@ export default function TeamDetailPage() {
             <StatCard label="Goals" value={team.goals} emoji="🥅" />
             <StatCard label="Shots" value={team.shots} emoji="🏒" />
             <StatCard label="Passes" value={team.passes} emoji="🎯" />
-            <StatCard label="Faceoff Wins" value={team.faceoff_wins} />
             <StatCard label="Puck Recoveries" value={team.puck_recoveries} />
             <StatCard label="Takeaways" value={team.takeaways} />
             <StatCard label="Zone Entries" value={team.zone_entries} />
+            <StatCard label="Faceoff Wins" value={team.faceoff_wins} />
+            <StatCard label="Penalties" value={team.penalties} />
+            <StatCard label="Dump Ins/Outs" value={team.dump_ins_outs} />
           </div>
         </div>
 
         {/* Rink Chart - Right Side */}
         <div className="flex-1">
-          {/* <RinkChart
-            events={events.map((event) => ({
-              x_coord: event.x_coord || 0,
-              y_coord: event.y_coord || 0,
-              event: event.event,
-              event_successful: event.event_successful,
-            }))}
-            title={`${cleanTeamName(team.team_name)} - Shot Chart`}
-          /> */}
           <RinkChart
             events={events.map((event) => ({
               x_coord: event.x_coord || 0,
@@ -97,6 +90,7 @@ export default function TeamDetailPage() {
               clock_seconds: event.clock_seconds,
               player_name: event.player_name || "",
               opp_team_name: event.opp_team_name,
+              event_type: event.event_type,
             }))}
             title={`${cleanTeamName(team.team_name)} - Shot Chart`}
           />

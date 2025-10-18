@@ -200,7 +200,8 @@ def get_player_detail(player_name):
                         event_successful,
                         x_coord,
                         y_coord,
-                        opp_team_name
+                        opp_team_name,
+                        event_type
                     FROM play_by_play
                     WHERE player_name = %s 
                     AND x_coord IS NOT NULL 
@@ -307,7 +308,10 @@ def get_team_detail(team_name):
                         SUM(CASE WHEN event = 'Faceoff Win' THEN 1 ELSE 0 END) as faceoff_wins,
                         SUM(CASE WHEN event = 'Puck Recovery' THEN 1 ELSE 0 END) as puck_recoveries,
                         SUM(CASE WHEN event = 'Takeaway' THEN 1 ELSE 0 END) as takeaways,
-                        SUM(CASE WHEN event = 'Zone Entry' THEN 1 ELSE 0 END) as zone_entries
+                        SUM(CASE WHEN event = 'Zone Entry' THEN 1 ELSE 0 END) as zone_entries,
+                        SUM(CASE WHEN event = 'Dump In/Out' THEN 1 ELSE 0 END) as dump_ins_outs,
+                        SUM(CASE WHEN event = 'Penalty Taken' THEN 1 ELSE 0 END) as penalties
+
                         
                     FROM play_by_play
                     WHERE team_name = %s
@@ -330,7 +334,8 @@ def get_team_detail(team_name):
                         x_coord,
                         y_coord,
                         player_name,
-                        opp_team_name
+                        opp_team_name,
+                        event_type
                     FROM play_by_play
                     WHERE team_name = %s 
                     AND x_coord IS NOT NULL 

@@ -81,10 +81,12 @@ export default function PlayerDetailPage() {
               value={player.successful_passes}
               emoji="🎯"
             />
-            <StatCard label="Faceoff Wins" value={player.faceoff_wins} />
             <StatCard label="Puck Recoveries" value={player.puck_recoveries} />
             <StatCard label="Takeaways" value={player.takeaways} />
             <StatCard label="Zone Entries" value={player.zone_entries} />
+            <StatCard label="Faceoff Wins" value={player.faceoff_wins} />
+            <StatCard label="Penalties" value={player.penalties} />
+            <StatCard label="Dump Ins/Outs" value={player.dump_ins_outs} />
           </div>
         </div>
 
@@ -99,6 +101,7 @@ export default function PlayerDetailPage() {
               period: event.period,
               clock_seconds: event.clock_seconds,
               opp_team_name: event.opp_team_name,
+              event_type: event.event_type,
             }))}
             title={`${player.player_name} - Shot Chart`}
           />

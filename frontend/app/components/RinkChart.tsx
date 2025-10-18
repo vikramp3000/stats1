@@ -13,6 +13,7 @@ interface RinkEvent {
   clock_seconds?: number;
   player_name?: string;
   opp_team_name?: string;
+  event_type?: string | null;
 }
 
 interface RinkChartProps {
@@ -259,19 +260,10 @@ export default function RinkChart({
                 strokeWidth="1.5"
                 className="hover:opacity-100 transition-opacity cursor-pointer"
               >
-                {/* <title>
-                  {getEventLabel(event)}
-                  {event.period && ` - Period ${event.period}`}
-                  {event.clock_seconds &&
-                    ` - ${Math.floor(event.clock_seconds / 60)}:${(
-                      event.clock_seconds % 60
-                    )
-                      .toString()
-                      .padStart(2, "0")}`}
-                </title> */}
                 <title>
                   {getEventLabel(event)}
                   {event.player_name && ` - ${event.player_name}`}
+                  {event.event_type && ` - ${event.event_type}`}
                   {event.opp_team_name &&
                     ` vs ${cleanTeamName(event.opp_team_name)}`}
                   {event.period && ` - Period ${event.period}`}
