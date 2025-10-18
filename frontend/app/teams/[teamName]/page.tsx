@@ -67,7 +67,7 @@ export default function TeamDetailPage() {
             <StatCard label="Games Played" value={team.games_played} />
             <StatCard label="Total Events" value={team.total_events} />
             <StatCard label="Goals" value={team.goals} emoji="🥅" />
-            <StatCard label="Shots" value={team.shots} emoji="🏒" />
+            <StatCard label="Shots On Goal" value={team.shots} emoji="🏒" />
             <StatCard label="Passes" value={team.passes} emoji="🎯" />
             <StatCard label="Puck Recoveries" value={team.puck_recoveries} />
             <StatCard label="Takeaways" value={team.takeaways} />
@@ -91,6 +91,9 @@ export default function TeamDetailPage() {
               player_name: event.player_name || "",
               opp_team_name: event.opp_team_name,
               event_type: event.event_type,
+              player_name_2: event.player_name_2,
+              x_coord_2: event.x_coord_2,
+              y_coord_2: event.y_coord_2,
             }))}
             title={`${cleanTeamName(team.team_name)} - Shot Chart`}
           />
@@ -110,6 +113,9 @@ export default function TeamDetailPage() {
                 Opponent
               </th>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
+                Final Score
+              </th>
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                 Goals
               </th>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px]">Shots</th>
@@ -124,6 +130,9 @@ export default function TeamDetailPage() {
                 </td>
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px]">
                   {cleanTeamName(game.opp_team_name)}
+                </td>
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-bold">
+                  {game.score_for} - {game.score_against}
                 </td>
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {game.goals}

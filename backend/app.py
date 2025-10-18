@@ -201,7 +201,10 @@ def get_player_detail(player_name):
                         x_coord,
                         y_coord,
                         opp_team_name,
-                        event_type
+                        event_type,
+                        player_name_2,
+                        x_coord_2,
+                        y_coord_2
                     FROM play_by_play
                     WHERE player_name = %s 
                     AND x_coord IS NOT NULL 
@@ -209,26 +212,38 @@ def get_player_detail(player_name):
                     ORDER BY game_date DESC
                 """
 
-                
                 cur.execute(events_query, (player_name,))
                 events = cur.fetchall()
                 
                 # Get game-by-game breakdown
                 games_query = """
+                    WITH final_scores AS (
+                        SELECT DISTINCT ON (game_date, opp_team_name)
+                            game_date,
+                            opp_team_name,
+                            goals_for,
+                            goals_against
+                        FROM play_by_play
+                        WHERE player_name = %s
+                        ORDER BY game_date, opp_team_name, period DESC, clock_seconds ASC
+                    )
                     SELECT 
-                        game_date,
-                        opp_team_name,
+                        p.game_date,
+                        p.opp_team_name,
                         COUNT(*) as total_events,
-                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
-                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
-                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes
-                    FROM play_by_play
-                    WHERE player_name = %s
-                    GROUP BY game_date, opp_team_name
-                    ORDER BY game_date DESC
+                        SUM(CASE WHEN p.event = 'Shot' AND p.event_successful = true THEN 1 ELSE 0 END) as goals,
+                        SUM(CASE WHEN p.event = 'Shot' AND p.event_successful = false THEN 1 ELSE 0 END) as shots,
+                        SUM(CASE WHEN p.event = 'Play' AND p.event_successful = true THEN 1 ELSE 0 END) as passes,
+                        fs.goals_for as score_for,
+                        fs.goals_against as score_against
+                    FROM play_by_play p
+                    JOIN final_scores fs ON p.game_date = fs.game_date AND p.opp_team_name = fs.opp_team_name
+                    WHERE p.player_name = %s
+                    GROUP BY p.game_date, p.opp_team_name, fs.goals_for, fs.goals_against
+                    ORDER BY p.game_date DESC
                 """
                 
-                cur.execute(games_query, (player_name,))
+                cur.execute(games_query, (player_name, player_name))
                 games = cur.fetchall()
         
         return jsonify({
@@ -335,7 +350,10 @@ def get_team_detail(team_name):
                         y_coord,
                         player_name,
                         opp_team_name,
-                        event_type
+                        event_type,
+                        player_name_2,
+                        x_coord_2,
+                        y_coord_2
                     FROM play_by_play
                     WHERE team_name = %s 
                     AND x_coord IS NOT NULL 
@@ -348,20 +366,33 @@ def get_team_detail(team_name):
                 
                 # Get game-by-game breakdown
                 games_query = """
+                    WITH final_scores AS (
+                        SELECT DISTINCT ON (game_date, opp_team_name)
+                            game_date,
+                            opp_team_name,
+                            goals_for,
+                            goals_against
+                        FROM play_by_play
+                        WHERE team_name = %s
+                        ORDER BY game_date, opp_team_name, period DESC, clock_seconds ASC
+                    )
                     SELECT 
-                        game_date,
-                        opp_team_name,
+                        p.game_date,
+                        p.opp_team_name,
                         COUNT(*) as total_events,
-                        SUM(CASE WHEN event = 'Shot' AND event_successful = true THEN 1 ELSE 0 END) as goals,
-                        SUM(CASE WHEN event = 'Shot' AND event_successful = false THEN 1 ELSE 0 END) as shots,
-                        SUM(CASE WHEN event = 'Play' AND event_successful = true THEN 1 ELSE 0 END) as passes
-                    FROM play_by_play
-                    WHERE team_name = %s
-                    GROUP BY game_date, opp_team_name
-                    ORDER BY game_date DESC
+                        SUM(CASE WHEN p.event = 'Shot' AND p.event_successful = true THEN 1 ELSE 0 END) as goals,
+                        SUM(CASE WHEN p.event = 'Shot' AND p.event_successful = false THEN 1 ELSE 0 END) as shots,
+                        SUM(CASE WHEN p.event = 'Play' AND p.event_successful = true THEN 1 ELSE 0 END) as passes,
+                        fs.goals_for as score_for,
+                        fs.goals_against as score_against
+                    FROM play_by_play p
+                    JOIN final_scores fs ON p.game_date = fs.game_date AND p.opp_team_name = fs.opp_team_name
+                    WHERE p.team_name = %s
+                    GROUP BY p.game_date, p.opp_team_name, fs.goals_for, fs.goals_against
+                    ORDER BY p.game_date DESC
                 """
                 
-                cur.execute(games_query, (team_name,))
+                cur.execute(games_query, (team_name, team_name))
                 games = cur.fetchall()
         
         return jsonify({

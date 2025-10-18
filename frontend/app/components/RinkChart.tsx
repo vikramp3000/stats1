@@ -11,8 +11,12 @@ interface RinkEvent {
   event_successful: boolean;
   period?: number;
   clock_seconds?: number;
-  player_name?: string;
-  opp_team_name?: string;
+  player_name?: string | null;
+  opp_team_name?: string | null;
+  situation_type?: string | null;
+  player_name_2?: string | null;
+  x_coord_2?: number | null;
+  y_coord_2?: number | null;
   event_type?: string | null;
 }
 
@@ -247,6 +251,36 @@ export default function RinkChart({
             strokeWidth="2"
           />
 
+          {/* Pass Lines - drawn before dots so dots appear on top */}
+          {showPasses &&
+            validEvents
+              .filter(
+                (event) =>
+                  event.event === "Play" && event.x_coord_2 && event.y_coord_2
+              )
+              .map((event, index) => (
+                <g key={`pass-${index}`}>
+                  {/* Pass line */}
+                  <line
+                    x1={event.x_coord * scale}
+                    y1={event.y_coord * scale}
+                    x2={event.x_coord_2! * scale}
+                    y2={event.y_coord_2! * scale}
+                    stroke={"#10b981"}
+                    strokeWidth="2"
+                    opacity="0.6"
+                    strokeDasharray={"5,5"}
+                  />
+                  {/* Small circle at receiving end */}
+                  <circle
+                    cx={event.x_coord_2! * scale}
+                    cy={event.y_coord_2! * scale}
+                    r="3"
+                    fill={"#10b981"}
+                  />
+                </g>
+              ))}
+
           {/* Event dots (only filtered events) */}
           {validEvents.map((event, index) => (
             <g key={index}>
@@ -264,6 +298,9 @@ export default function RinkChart({
                   {getEventLabel(event)}
                   {event.player_name && ` - ${event.player_name}`}
                   {event.event_type && ` - ${event.event_type}`}
+                  {event.player_name_2 &&
+                    event.player_name_2 !== "NaN" &&
+                    ` (to ${event.player_name_2})`}
                   {event.opp_team_name &&
                     ` vs ${cleanTeamName(event.opp_team_name)}`}
                   {event.period && ` - Period ${event.period}`}

@@ -75,7 +75,7 @@ export default function PlayerDetailPage() {
             <StatCard label="Games Played" value={player.games_played} />
             <StatCard label="Total Events" value={player.total_events} />
             <StatCard label="Goals" value={player.goals} emoji="🥅" />
-            <StatCard label="Shots" value={player.shots} emoji="🏒" />
+            <StatCard label="Shots On Goal" value={player.shots} emoji="🏒" />
             <StatCard
               label="Passes"
               value={player.successful_passes}
@@ -101,7 +101,11 @@ export default function PlayerDetailPage() {
               period: event.period,
               clock_seconds: event.clock_seconds,
               opp_team_name: event.opp_team_name,
+              situation_type: event.situation_type,
+              player_name_2: event.player_name_2,
               event_type: event.event_type,
+              x_coord_2: event.x_coord_2,
+              y_coord_2: event.y_coord_2,
             }))}
             title={`${player.player_name} - Shot Chart`}
           />
@@ -121,6 +125,9 @@ export default function PlayerDetailPage() {
                 Opponent
               </th>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
+                Final Score
+              </th>
+              <th className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                 Goals
               </th>
               <th className="px-6 py-4 border-b-[3px] border-r-[3px]">Shots</th>
@@ -135,6 +142,9 @@ export default function PlayerDetailPage() {
                 </td>
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px] ">
                   {cleanTeamName(game.opp_team_name)}
+                </td>
+                <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center font-bold">
+                  {game.score_for} - {game.score_against}
                 </td>
                 <td className="px-6 py-4 border-b-[3px] border-r-[3px] text-center">
                   {game.goals}
