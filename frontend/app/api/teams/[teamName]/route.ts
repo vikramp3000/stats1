@@ -8,9 +8,7 @@ export async function GET(
   try {
     const { teamName: teamNameParam } = await params;
     const teamName = decodeURIComponent(teamNameParam);
-    const data = await flaskFetch(
-      `/api/teams/${encodeURIComponent(teamName)}/averages`
-    );
+    const data = await flaskFetch(`/api/teams/${encodeURIComponent(teamName)}`);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching team averages:", error);

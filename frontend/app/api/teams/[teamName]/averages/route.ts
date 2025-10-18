@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { flaskFetch } from "@/lib/flask-client";
 
-export async function GET({
-  params,
-}: {
-  params: Promise<{ teamName: string }>;
-}) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ teamName: string }> }
+) {
   try {
     const { teamName: teamNameParam } = await params;
     const teamName = decodeURIComponent(teamNameParam);

@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { flaskFetch } from "@/lib/flask-client";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     playerName: string;
-  };
+  }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { playerName } = params;
+    const { playerName } = await params;
     const data = await flaskFetch(
       `/api/players/${encodeURIComponent(playerName)}`
     );
