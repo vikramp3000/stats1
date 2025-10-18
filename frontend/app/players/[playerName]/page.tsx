@@ -48,6 +48,18 @@ export default function PlayerDetailPage() {
 
   const { player, games, events } = data;
 
+  // Calculate shooting percentage
+  const totalShots = player.goals + player.shots;
+  const shootingPct =
+    totalShots > 0 ? ((player.goals / totalShots) * 100).toFixed(1) : 0;
+
+  // Calculate pass completion rate
+  const totalPasses = player.successful_passes + player.incomplete_passes;
+  const passCompletionPct =
+    totalPasses > 0
+      ? ((player.successful_passes / totalPasses) * 100).toFixed(1)
+      : 0;
+
   return (
     <main className="min-h-screen p-8 w-3/4 mx-auto">
       <Link href="/players" className="hover:underline mb-4 inline-block">
@@ -76,10 +88,16 @@ export default function PlayerDetailPage() {
             <StatCard label="Total Events" value={player.total_events} />
             <StatCard label="Goals" value={player.goals} emoji="🥅" />
             <StatCard label="Shots On Goal" value={player.shots} emoji="🏒" />
+            <StatCard label="Shooting %" value={`${shootingPct}%`} emoji="📊" />
             <StatCard
               label="Passes"
               value={player.successful_passes}
               emoji="🎯"
+            />
+            <StatCard
+              label="Pass Completion %"
+              value={`${passCompletionPct}%`}
+              emoji="✅"
             />
             <StatCard label="Puck Recoveries" value={player.puck_recoveries} />
             <StatCard label="Takeaways" value={player.takeaways} />
