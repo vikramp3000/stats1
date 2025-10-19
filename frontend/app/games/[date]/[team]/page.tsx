@@ -7,6 +7,7 @@ import { getGameDetail } from "@/lib/api";
 import { GameDetailResponse } from "@/lib/types";
 import { cleanTeamName } from "@/lib/utils";
 import EventsTable from "@/app/components/EventsTable";
+import GameFlowRink from "@/app/components/GameFlowRink";
 
 export default function GameDetailPage() {
   const params = useParams();
@@ -74,6 +75,15 @@ export default function GameDetailPage() {
         <p className="text-3xl font-bold mt-4">
           Final Score: {game.goals_for} - {game.goals_against}
         </p>
+      </div>
+
+      {/* Game Flow Rink */}
+      <div className="mb-8">
+        <GameFlowRink
+          events={events}
+          homeTeam={game.team_name}
+          awayTeam={game.opp_team_name}
+        />
       </div>
 
       {/* Events Table */}
