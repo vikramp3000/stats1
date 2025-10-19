@@ -8,11 +8,11 @@ export default function Header() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/alldata", label: "All Data" },
+    { href: "/games", label: "Game Flow" },
     { href: "/players", label: "Players" },
     { href: "/teams", label: "Teams" },
+    { href: "/alldata", label: "All Data" },
   ];
-  const futureLinks = ["Game Flow"];
 
   return (
     <header className="bg-neutral-300 border-b-[1px] border-neutral-800 py-4">
@@ -38,17 +38,6 @@ export default function Header() {
               >
                 {link.label}
               </Link>
-            ))}
-
-            {/* Future links (disabled) */}
-            {futureLinks.map((label) => (
-              <span
-                key={label}
-                className="text-foreground/40 cursor-not-allowed"
-                title="Coming soon"
-              >
-                {label}
-              </span>
             ))}
           </nav>
         </div>

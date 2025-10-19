@@ -174,3 +174,34 @@ export interface TeamAverages {
   avg_shooting_pct: number;
   avg_pass_completion_pct: number;
 }
+
+// Game stats
+export interface Game {
+  game_date: string;
+  team_name: string;
+  opp_team_name: string;
+  goals_for: number;
+  goals_against: number;
+}
+
+export interface GamesResponse {
+  games: Game[];
+  count: number;
+}
+
+// Game detail
+export interface GameInfo {
+  game_date: string;
+  team_name: string;
+  opp_team_name: string;
+  venue: string;
+  season_year: number;
+  goals_for: number;
+  goals_against: number;
+}
+
+export interface GameDetailResponse {
+  game: GameInfo;
+  events: PlayByPlayEvent[];
+  count: number;
+}

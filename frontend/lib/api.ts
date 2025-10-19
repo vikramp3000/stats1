@@ -1,5 +1,7 @@
 import {
   EventsResponse,
+  GameDetailResponse,
+  GamesResponse,
   PlayerDetailResponse,
   PlayersResponse,
   TeamAverages,
@@ -9,7 +11,8 @@ import {
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-// API Functions
+// API Functions - this is to prevent the api calls from being made in the frontend (protects endpoint)
+
 //this is used to get the list of all teams
 export async function getTeams(): Promise<string[]> {
   const response = await fetch("/api/teams"); // Changed from localhost:5000
@@ -85,5 +88,24 @@ export async function getTeamAverages(teamName: string): Promise<TeamAverages> {
     `/api/teams/${encodeURIComponent(teamName)}/averages`
   );
   if (!response.ok) throw new Error("Failed to fetch team averages");
+  return response.json();
+}
+
+//this is used to get the list of all games
+export async function getGames(): Promise<GamesResponse> {
+  const response = await fetch("/api/games");
+  if (!response.ok) throw new Error("Failed to fetch games");
+  return response.json();
+}
+
+//this is used to get detailed play-by-play for a specific game
+export async function getGameDetail(
+  gameDate: string,
+  teamName: string
+): Promise<GameDetailResponse> {
+  const response = await fetch(
+    `/api/games/${encodeURIComponent(gameDate)}/${encodeURIComponent(teamName)}`
+  );
+  if (!response.ok) throw new Error("Failed to fetch game details");
   return response.json();
 }

@@ -459,5 +459,120 @@ def get_team_averages(team_name):
         print(f"Error fetching team averages: {e}")
         return jsonify({"error": "Failed to fetch team averages"}), 500
 
+# Get all games with final scores
+@app.route('/api/games', methods=['GET'])
+def get_games():
+    """Get list of all games with final scores"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                query = """
+                    WITH final_scores AS (
+                        SELECT DISTINCT ON (game_date, team_name, opp_team_name)
+                            game_date,
+                            team_name,
+                            opp_team_name,
+                            goals_for,
+                            goals_against
+                        FROM play_by_play
+                        WHERE venue = 'home'
+                        ORDER BY game_date, team_name, opp_team_name, period DESC, clock_seconds ASC
+                    )
+                    SELECT 
+                        game_date,
+                        team_name,
+                        opp_team_name,
+                        goals_for,
+                        goals_against
+                    FROM final_scores
+                    ORDER BY game_date DESC
+                """
+                
+                cur.execute(query)
+                games = cur.fetchall()
+        
+        return jsonify({
+            "games": games,
+            "count": len(games)
+        }), 200
+    
+    except Exception as e:
+        print(f"Error fetching games: {e}")
+        return jsonify({"error": "Failed to fetch games"}), 500
+
+
+
+# Get detailed play-by-play for a specific game
+@app.route('/api/games/<game_date>/<team_name>', methods=['GET'])
+def get_game_detail(game_date, team_name):
+    """Get all play-by-play events for a specific game"""
+    try:
+        with get_db_connection() as conn:
+            with get_db_cursor(conn) as cur:
+                # Get all events for this game
+                query = """
+                    SELECT
+                        id,
+                        game_date,
+                        season_year,
+                        team_name,
+                        opp_team_name,
+                        venue,
+                        period,
+                        clock_seconds,
+                        situation_type,
+                        goals_for,
+                        goals_against,
+                        player_name,
+                        event,
+                        event_successful,
+                        x_coord,
+                        y_coord,
+                        event_type,
+                        player_name_2,
+                        x_coord_2,
+                        y_coord_2,
+                        event_detail_1,
+                        event_detail_2,
+                        event_detail_3
+                    FROM play_by_play
+                    WHERE game_date = %s 
+                    AND (team_name = %s OR opp_team_name = %s)
+                    ORDER BY period ASC, clock_seconds DESC
+                """
+                
+                cur.execute(query, (game_date, team_name, team_name))
+                events = cur.fetchall()
+                
+                if not events:
+                    return jsonify({"error": "Game not found"}), 404
+                
+                # Get game info from first event
+                game_info = {
+                    "game_date": events[0]['game_date'],
+                    "team_name": events[0]['team_name'] if events[0]['team_name'] == team_name else events[0]['opp_team_name'],
+                    "opp_team_name": events[0]['opp_team_name'] if events[0]['team_name'] == team_name else events[0]['team_name'],
+                    "venue": events[0]['venue'],
+                    "season_year": events[0]['season_year']
+                }
+                
+                # Get final score
+                final_event = events[-1]  # Last event has final score
+                game_info['goals_for'] = final_event['goals_for']
+                game_info['goals_against'] = final_event['goals_against']
+        
+        return jsonify({
+            "game": game_info,
+            "events": events,
+            "count": len(events)
+        }), 200
+    
+    except Exception as e:
+        print(f"Error fetching game detail: {e}")
+        return jsonify({"error": "Failed to fetch game details"}), 500
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
