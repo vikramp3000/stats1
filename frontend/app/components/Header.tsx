@@ -11,12 +11,11 @@ export default function Header() {
     { href: "/games", label: "Game Flow" },
     { href: "/players", label: "Players" },
     { href: "/teams", label: "Teams" },
-    { href: "/alldata", label: "All Data" },
   ];
 
   return (
     <header className="bg-neutral-300 border-b-[1px] border-neutral-800 py-4">
-      <div className="w-3/4 mx-auto px-4 py-4">
+      <div className="w-[60%] mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Left: Logo/Brand */}
           <Link href="/" className="flex items-center space-x-2">
@@ -30,10 +29,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-light pb-[4px] ${
+                className={`font-bold pb-[4px] ${
                   pathname === link.href
-                    ? "border-b-[1px] text-blue-900 border-blue-900"
-                    : "border-b-[1px] border-transparent hover:text-blue-900"
+                    ? "border-b-[1px] border-neutral-800"
+                    : "border-b-[1px] border-transparent"
                 }`}
               >
                 {link.label}

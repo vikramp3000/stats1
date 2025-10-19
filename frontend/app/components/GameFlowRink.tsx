@@ -15,12 +15,22 @@ export default function GameFlowRink({
   homeTeam,
   awayTeam,
 }: GameFlowRinkProps) {
-  // Filter events that have coordinates (shots and plays)
+  // Filter events that have coordinates and match desired event types
   const eventsWithCoords = useMemo(
     () =>
       events.filter(
         (e) =>
-          e.x_coord && e.y_coord && (e.event === "Shot" || e.event === "Play")
+          e.x_coord &&
+          e.y_coord &&
+          [
+            "Shot",
+            "Play",
+            "Faceoff Win",
+            "Puck Recovery",
+            "Dump In/Out",
+            "Zone Entry",
+            "Takeaway",
+          ].includes(e.event)
       ),
     [events]
   );
@@ -30,8 +40,13 @@ export default function GameFlowRink({
     eventsWithCoords.length - 1
   ); // Start at the end (all events)
 
-  // Get events up to current index
-  const visibleEvents = eventsWithCoords.slice(0, currentEventIndex + 1);
+  // Get the sliding window of last 10 events up to current index
+  const windowSize = 10;
+  const windowStart = Math.max(0, currentEventIndex - windowSize + 1);
+  const visibleEvents = eventsWithCoords.slice(
+    windowStart,
+    currentEventIndex + 1
+  );
   const currentEvent = eventsWithCoords[currentEventIndex];
 
   // Rink dimensions
@@ -84,6 +99,21 @@ export default function GameFlowRink({
     if (event.event === "Play") {
       return "#10b981"; // Green - Pass
     }
+    if (event.event === "Faceoff Win") {
+      return "#f59e0b"; // Amber - Faceoff Win
+    }
+    if (event.event === "Puck Recovery") {
+      return "#8b5cf6"; // Violet - Puck Recovery
+    }
+    if (event.event === "Dump In/Out") {
+      return "#ec4899"; // Pink - Dump In/Out
+    }
+    if (event.event === "Zone Entry") {
+      return "#14b8a6"; // Teal - Zone Entry
+    }
+    if (event.event === "Takeaway") {
+      return "#f97316"; // Orange - Takeaway
+    }
     return "#6b7280"; // Gray
   };
 
@@ -91,6 +121,11 @@ export default function GameFlowRink({
     if (event.event === "Shot" && event.event_successful) return "🥅 Goal";
     if (event.event === "Shot") return "🏒 Shot";
     if (event.event === "Play") return "🎯 Pass";
+    if (event.event === "Faceoff Win") return "⚫ Faceoff Win";
+    if (event.event === "Puck Recovery") return "🔄 Puck Recovery";
+    if (event.event === "Dump In/Out") return "🏐 Dump In/Out";
+    if (event.event === "Zone Entry") return "⬆️ Zone Entry";
+    if (event.event === "Takeaway") return "🎯 Takeaway";
     return event.event;
   };
 
@@ -102,15 +137,30 @@ export default function GameFlowRink({
 
   // Count stats up to current event
   const stats = useMemo(() => {
-    const goals = visibleEvents.filter(
+    const allEventsUpToCurrent = eventsWithCoords.slice(
+      0,
+      currentEventIndex + 1
+    );
+    const goals = allEventsUpToCurrent.filter(
       (e) => e.event === "Shot" && e.event_successful
     ).length;
-    const shots = visibleEvents.filter(
+    const shots = allEventsUpToCurrent.filter(
       (e) => e.event === "Shot" && !e.event_successful
     ).length;
-    const passes = visibleEvents.filter((e) => e.event === "Play").length;
-    return { goals, shots, passes };
-  }, [visibleEvents]);
+    const passes = allEventsUpToCurrent.filter(
+      (e) => e.event === "Play"
+    ).length;
+    const faceoffs = allEventsUpToCurrent.filter(
+      (e) => e.event === "Faceoff Win"
+    ).length;
+    const recoveries = allEventsUpToCurrent.filter(
+      (e) => e.event === "Puck Recovery"
+    ).length;
+    const takeaways = allEventsUpToCurrent.filter(
+      (e) => e.event === "Takeaway"
+    ).length;
+    return { goals, shots, passes, faceoffs, recoveries, takeaways };
+  }, [eventsWithCoords, currentEventIndex]);
 
   return (
     <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-300">
@@ -131,6 +181,11 @@ export default function GameFlowRink({
                 {cleanTeamName(currentEvent.team_name)}
                 {currentEvent.event_type && ` • ${currentEvent.event_type}`}
               </p>
+              {currentEvent.player_name_2 && (
+                <p className="text-sm text-foreground/70">
+                  With: {currentEvent.player_name_2}
+                </p>
+              )}
             </div>
             <div className="text-right">
               <p className="text-2xl font-bold">
@@ -143,24 +198,36 @@ export default function GameFlowRink({
       )}
 
       {/* Stats Display */}
-      <div className="flex gap-4 mb-4">
-        <div className="flex-1 bg-red-200 border-[3px] border-neutral-800 rounded-sm p-3 text-center">
-          <p className="text-2xl font-bold">{stats.goals}</p>
-          <p className="text-sm">🥅 Goals</p>
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="bg-red-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.goals}</p>
+          <p className="text-xs">🥅 Goals</p>
         </div>
-        <div className="flex-1 bg-blue-200 border-[3px] border-neutral-800 rounded-sm p-3 text-center">
-          <p className="text-2xl font-bold">{stats.shots}</p>
-          <p className="text-sm">🏒 Shots</p>
+        <div className="bg-blue-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.shots}</p>
+          <p className="text-xs">🏒 Shots</p>
         </div>
-        <div className="flex-1 bg-green-200 border-[3px] border-neutral-800 rounded-sm p-3 text-center">
-          <p className="text-2xl font-bold">{stats.passes}</p>
-          <p className="text-sm">🎯 Passes</p>
+        <div className="bg-green-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.passes}</p>
+          <p className="text-xs">🎯 Passes</p>
+        </div>
+        <div className="bg-amber-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.faceoffs}</p>
+          <p className="text-xs">⚫ Faceoffs</p>
+        </div>
+        <div className="bg-violet-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.recoveries}</p>
+          <p className="text-xs">🔄 Recoveries</p>
+        </div>
+        <div className="bg-orange-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
+          <p className="text-xl font-bold">{stats.takeaways}</p>
+          <p className="text-xs">🎯 Takeaways</p>
         </div>
       </div>
 
       {/* SVG Rink */}
       <div
-        className="border-[3px] border-neutral-800 rounded-sm overflow-hidden bg-neutral-100 flex justify-center items-center"
+        className="border-[3px] border-neutral-800 rounded-sm overflow-hidden bg-neutral-100 flex justify-center items-center px-6"
         style={{ minHeight: "450px" }}
       >
         <svg
@@ -168,8 +235,6 @@ export default function GameFlowRink({
           className="w-full"
           style={{
             maxWidth: "800px",
-            // transform: "rotate(-90deg)",
-            // transformOrigin: "center center",
           }}
         >
           {/* Ice surface */}
@@ -295,7 +360,7 @@ export default function GameFlowRink({
               if (!coords2) return null;
 
               return (
-                <g key={`pass-${index}`}>
+                <g key={`pass-${windowStart + index}`}>
                   <line
                     x1={coords1.x * scale}
                     y1={coords1.y * scale}
@@ -317,13 +382,111 @@ export default function GameFlowRink({
               );
             })}
 
-          {/* Event dots - visible events */}
+          {/* Event dots and labels - visible events (last 10) */}
           {visibleEvents.map((event, index) => {
             const coords = getDisplayCoords(event);
-            const isCurrentEvent = index === currentEventIndex;
+            const globalIndex = windowStart + index;
+            const isCurrentEvent = globalIndex === currentEventIndex;
+
+            // Calculate position for event detail box with smart positioning
+            const boxWidth = 140;
+            const boxHeight = 55;
+            const verticalOffset = 20; // Distance from dot
+
+            // Check if we're near the top of the rink - if so, position below
+            const isNearTop =
+              coords.y * scale < boxHeight + verticalOffset + 20;
+            const boxY = isNearTop
+              ? coords.y * scale + verticalOffset // Position below
+              : coords.y * scale - verticalOffset; // Position above
+
+            const boxX = coords.x * scale;
+
+            // Constrain box horizontally to stay within rink bounds
+            const boxLeft = Math.max(
+              10,
+              Math.min(width - boxWidth - 10, boxX - boxWidth / 2)
+            );
 
             return (
-              <g key={index}>
+              <g key={globalIndex}>
+                {/* Event detail box */}
+                <rect
+                  x={boxLeft}
+                  y={isNearTop ? boxY : boxY - boxHeight}
+                  width={boxWidth}
+                  height={boxHeight}
+                  fill="white"
+                  stroke="#000"
+                  strokeWidth="2"
+                  rx="4"
+                  opacity="0.95"
+                />
+
+                {/* Event type */}
+                <text
+                  x={boxLeft + boxWidth / 2}
+                  y={isNearTop ? boxY + 14 : boxY - boxHeight + 14}
+                  textAnchor="middle"
+                  fontSize="11"
+                  fontWeight="bold"
+                  fill="#000"
+                >
+                  {getEventLabel(event)
+                    .replace(/[🥅🏒🎯⚫🔄🏐⬆️]/g, "")
+                    .trim()}
+                </text>
+
+                {/* Player name */}
+                <text
+                  x={boxLeft + boxWidth / 2}
+                  y={isNearTop ? boxY + 28 : boxY - boxHeight + 28}
+                  textAnchor="middle"
+                  fontSize="9"
+                  fill="#555"
+                >
+                  {event.player_name?.split(" ").slice(-2).join(" ") ||
+                    "Unknown"}
+                </text>
+
+                {/* Period and time */}
+                <text
+                  x={boxLeft + boxWidth / 2}
+                  y={isNearTop ? boxY + 40 : boxY - boxHeight + 40}
+                  textAnchor="middle"
+                  fontSize="8"
+                  fill="#777"
+                >
+                  P{event.period} • {formatTime(event.clock_seconds)}
+                </text>
+
+                {/* Event type detail */}
+                {event.event_type && (
+                  <text
+                    x={boxLeft + boxWidth / 2}
+                    y={isNearTop ? boxY + 50 : boxY - boxHeight + 50}
+                    textAnchor="middle"
+                    fontSize="7"
+                    fill="#888"
+                  >
+                    {event.event_type.length > 20
+                      ? event.event_type.substring(0, 20) + "..."
+                      : event.event_type}
+                  </text>
+                )}
+
+                {/* Small connector line from box to dot */}
+                <line
+                  x1={boxX}
+                  y1={isNearTop ? boxY : boxY - boxHeight}
+                  x2={coords.x * scale}
+                  y2={coords.y * scale}
+                  stroke="#666"
+                  strokeWidth="1"
+                  opacity="0.3"
+                />
+
+                {/* Event dot */}
                 <circle
                   cx={coords.x * scale}
                   cy={coords.y * scale}
@@ -342,6 +505,7 @@ export default function GameFlowRink({
                     {` - ${formatTime(event.clock_seconds)}`}
                   </title>
                 </circle>
+
                 {/* Pulse animation for current event */}
                 {isCurrentEvent && (
                   <circle
@@ -400,7 +564,8 @@ export default function GameFlowRink({
             <div className="flex justify-between text-xs text-foreground/60 mt-1">
               <span>Start</span>
               <span>
-                Event {currentEventIndex + 1} of {eventsWithCoords.length}
+                Event {currentEventIndex + 1} of {eventsWithCoords.length}{" "}
+                (showing last {Math.min(windowSize, currentEventIndex + 1)})
               </span>
               <span>End</span>
             </div>
@@ -420,10 +585,49 @@ export default function GameFlowRink({
         </div>
       </div>
 
+      {/* Legend */}
+      <div className="mt-4 p-3 bg-neutral-100 border-[3px] border-neutral-800 rounded-sm">
+        <p className="text-xs font-bold mb-2">Event Types:</p>
+        <div className="grid grid-cols-4 gap-2 text-xs">
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <span>Goal</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+            <span>Shot</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <span>Pass</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+            <span>Faceoff</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+            <span>Recovery</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-pink-500"></div>
+            <span>Dump</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-teal-500"></div>
+            <span>Zone Entry</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+            <span>Takeaway</span>
+          </div>
+        </div>
+      </div>
+
       <p className="text-sm text-foreground/60 mt-3 text-center">
-        Use the slider to replay the game event by event •{" "}
-        {cleanTeamName(homeTeam)} attacks right →, {cleanTeamName(awayTeam)}{" "}
-        attacks ← left
+        Use the slider to replay the game event by event • Showing last{" "}
+        {windowSize} events • {cleanTeamName(homeTeam)} attacks right →,{" "}
+        {cleanTeamName(awayTeam)} attacks ← left
       </p>
     </div>
   );

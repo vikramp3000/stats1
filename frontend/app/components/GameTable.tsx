@@ -95,7 +95,7 @@ export default function GamesTable({
   };
 
   if (loading) {
-    return <p>Loading games...</p>;
+    return <p>Loading games... </p>;
   }
 
   if (games.length === 0) {

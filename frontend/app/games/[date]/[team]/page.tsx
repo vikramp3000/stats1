@@ -8,6 +8,7 @@ import { GameDetailResponse } from "@/lib/types";
 import { cleanTeamName } from "@/lib/utils";
 import EventsTable from "@/app/components/EventsTable";
 import GameFlowRink from "@/app/components/GameFlowRink";
+import RinkChart from "@/app/components/RinkChart";
 
 export default function GameDetailPage() {
   const params = useParams();
@@ -58,7 +59,7 @@ export default function GameDetailPage() {
   };
 
   return (
-    <main className="min-h-screen p-8 w-3/4 mx-auto">
+    <main className="min-h-screen p-8 w-[60%] mx-auto">
       <Link href="/games" className="hover:underline mb-4 inline-block">
         ← Back to Games
       </Link>
@@ -69,8 +70,7 @@ export default function GameDetailPage() {
           {cleanTeamName(game.team_name)} vs {cleanTeamName(game.opp_team_name)}
         </h1>
         <p className="text-xl text-foreground/60">
-          {formatDate(game.game_date)} •{" "}
-          {game.venue === "home" ? "🏠 Home" : "✈️ Away"}
+          {formatDate(game.game_date)}
         </p>
         <p className="text-3xl font-bold mt-4">
           Final Score: {game.goals_for} - {game.goals_against}
@@ -86,13 +86,239 @@ export default function GameDetailPage() {
         />
       </div>
 
+      {/* Game Stats and Rink Chart - Side by Side */}
+      <div className="flex gap-6 mb-8">
+        {/* Stats Comparison - Left Side */}
+        <div className="flex-1">
+          <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-300">
+            <h3 className="text-2xl font-bold mb-4">Game Statistics</h3>
+
+            {/* Stats Table */}
+            <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-neutral-200">
+                  <tr>
+                    <th className="px-4 py-3 text-left border-b-[3px] border-r-[3px] border-neutral-800">
+                      Stat
+                    </th>
+                    <th className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {cleanTeamName(game.team_name)}
+                    </th>
+                    <th className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {cleanTeamName(game.opp_team_name)}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Goals */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      🥅 Goals
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800 font-bold text-xl">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Shot" &&
+                            e.event_successful &&
+                            e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800 font-bold text-xl">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Shot" &&
+                            e.event_successful &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Shots */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      🏒 Shots
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Shot" && e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Shot" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Passes */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      🎯 Passes
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Play" && e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Play" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Faceoff Wins */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      ⚫ Faceoff Wins
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Faceoff Win" &&
+                            e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Faceoff Win" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Takeaways */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      🎯 Takeaways
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Takeaway" &&
+                            e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Takeaway" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Puck Recoveries */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-b-[3px] border-r-[3px] border-neutral-800">
+                      🔄 Recoveries
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Puck Recovery" &&
+                            e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center border-b-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Puck Recovery" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+
+                  {/* Zone Entries */}
+                  <tr>
+                    <td className="px-4 py-3 font-bold border-r-[3px] border-neutral-800">
+                      ⬆️ Zone Entries
+                    </td>
+                    <td className="px-4 py-3 text-center border-r-[3px] border-neutral-800">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Zone Entry" &&
+                            e.team_name === game.team_name
+                        ).length
+                      }
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {
+                        events.filter(
+                          (e) =>
+                            e.event === "Zone Entry" &&
+                            e.team_name === game.opp_team_name
+                        ).length
+                      }
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Rink Chart - Right Side */}
+        <div className="flex-1">
+          <RinkChart
+            events={events.map((event) => ({
+              x_coord: event.x_coord || 0,
+              y_coord: event.y_coord || 0,
+              event: event.event,
+              event_successful: event.event_successful,
+              period: event.period,
+              clock_seconds: event.clock_seconds,
+              player_name: event.player_name || "",
+              opp_team_name: event.opp_team_name,
+              event_type: event.event_type,
+              player_name_2: event.player_name_2,
+              x_coord_2: event.x_coord_2,
+              y_coord_2: event.y_coord_2,
+            }))}
+            title="Game Events - Combined"
+          />
+        </div>
+      </div>
+
       {/* Events Table */}
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">
           Play-by-Play Events ({events.length})
         </h2>
         <EventsTable events={events} />
-      </div>
+      </div> */}
     </main>
   );
 }
