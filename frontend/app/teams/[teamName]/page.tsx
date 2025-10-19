@@ -28,7 +28,7 @@ export default function TeamDetailPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen p-8 w-3/4 mx-auto">
+      <main className="min-h-screen p-8 w-[60%] mx-auto">
         <p>Loading team details...</p>
       </main>
     );
@@ -36,7 +36,7 @@ export default function TeamDetailPage() {
 
   if (error || !data) {
     return (
-      <main className="min-h-screen p-8 w-3/4 mx-auto">
+      <main className="min-h-screen p-8 w-[60%] mx-auto">
         <Link href="/teams" className="hover:underline mb-4 inline-block">
           ← Back to Teams
         </Link>
@@ -48,7 +48,7 @@ export default function TeamDetailPage() {
   const { team, games, events } = data;
 
   return (
-    <main className="min-h-screen p-8 w-3/4 mx-auto">
+    <main className="min-h-screen p-8 w-[60%] mx-auto">
       <Link href="/teams" className="hover:underline mb-4 inline-block">
         ← Back to Teams
       </Link>

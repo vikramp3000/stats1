@@ -141,7 +141,7 @@ export default function TeamsTable({
                   <Button
                     asChild
                     size="sm"
-                    className="border-[2px] bg-neutral-200 hover:bg-neutral-300 rounded-sm"
+                    className="border-[3px] bg-green-500 hover:bg-green-600 rounded-sm font-bold"
                   >
                     <Link href={`/teams/${encodeURIComponent(team.team_name)}`}>
                       View Details

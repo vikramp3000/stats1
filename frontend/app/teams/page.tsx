@@ -18,7 +18,7 @@ export default function TeamsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen p-8 w-3/4 mx-auto">
+    <main className="min-h-screen p-8 w-[60%] mx-auto">
       <h1 className="text-4xl font-bold mb-8">Teams 🏒</h1>
 
       <TeamsTable teams={teams} loading={loading} />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,8 +20,9 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Left: Logo/Brand */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl">🏒</span>
-            <span className="text-xl font-bold">Rink Charts</span>
+            {/* <span className="text-2xl">🏒</span>
+            <span className="text-xl font-bold">Rink Charts</span> */}
+            <Image src="/logo.png" alt="Logo" width={300} height={300} />
           </Link>
 
           {/* Center: Navigation Links */}
