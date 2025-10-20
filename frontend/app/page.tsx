@@ -29,7 +29,6 @@ export default function Home() {
           {/* Games/Game Flow */}
           <Link href="/games">
             <div className="bg-blue-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-blue-600 transition-colors h-full">
-              {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">🏒</div>
               </div>
@@ -54,7 +53,6 @@ export default function Home() {
           {/* Teams */}
           <Link href="/teams">
             <div className="bg-green-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-green-600 transition-colors h-full">
-              {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">🏅</div>
               </div>
@@ -79,7 +77,6 @@ export default function Home() {
           {/* Players */}
           <Link href="/players">
             <div className="bg-amber-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-amber-600 transition-colors h-full">
-              {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">⭐</div>
               </div>
