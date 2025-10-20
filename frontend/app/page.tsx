@@ -10,7 +10,7 @@ export default function Home() {
             🏒 2022 Women&apos;s Olympic Hockey
           </h1>
           <p className="text-2xl text-foreground/70 mb-2">
-            2022 Olympics Play-by-Play Analytics
+            Rink Charts and Play-by-Play Analytics
           </p>
           <p className="text-lg text-foreground/60">
             Explore comprehensive statistics, game flow analysis, and player
