@@ -2,19 +2,19 @@ from flask import Flask, jsonify, request
 # from flask_cors import CORS
 from database import get_db_connection, get_db_cursor
 
-#ADD BLUEPRINTS
-
 app = Flask(__name__)
 # CORS(app)  # Enable CORS for Next.js frontend
 
-# Configuration - put settings at the top
+# Configuration
 MAX_LIMIT = 2000    # Don't let users request too much data//default is 2000
 
+
+# Endpoints
+# Home endpoint
 @app.route('/')
 def home():
     """Health check endpoint"""
     return jsonify({"message": "NHL Stats API is running!"})
-
 
 #get events by team, player, event type, limit, and offset
 @app.route('/api/events', methods=['GET'])
@@ -500,8 +500,6 @@ def get_games():
         print(f"Error fetching games: {e}")
         return jsonify({"error": "Failed to fetch games"}), 500
 
-
-
 # Get detailed play-by-play for a specific game
 @app.route('/api/games/<game_date>/<team_name>', methods=['GET'])
 def get_game_detail(game_date, team_name):
@@ -570,8 +568,6 @@ def get_game_detail(game_date, team_name):
     except Exception as e:
         print(f"Error fetching game detail: {e}")
         return jsonify({"error": "Failed to fetch game details"}), 500
-
-
 
 
 if __name__ == '__main__':

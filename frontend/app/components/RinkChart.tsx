@@ -130,7 +130,7 @@ export default function RinkChart({
       {/* SVG Rink */}
       <div
         className="border-[3px] border-neutral-800 rounded-sm overflow-hidden bg-neutral-100 flex justify-center items-center"
-        style={{ minHeight: "850px" }}
+        style={{ minHeight: "600px" }}
       >
         <svg
           viewBox={`0 0 ${width} ${height}`}

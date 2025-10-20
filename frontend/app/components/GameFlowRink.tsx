@@ -166,37 +166,6 @@ export default function GameFlowRink({
     <div className="border-[3px] border-neutral-800 rounded-sm p-6 bg-neutral-300">
       <h3 className="text-2xl font-bold mb-4">Game Flow - Interactive Rink</h3>
 
-      {/* Current Event Info */}
-      {currentEvent && (
-        <div className="mb-4 p-4 bg-neutral-100 border-[3px] border-neutral-800 rounded-sm">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-lg font-bold">
-                {getEventLabel(currentEvent)}{" "}
-                {currentEvent.player_name && `- ${currentEvent.player_name}`}
-              </p>
-              <p className="text-sm text-foreground/70">
-                Period {currentEvent.period} •{" "}
-                {formatTime(currentEvent.clock_seconds)} •{" "}
-                {cleanTeamName(currentEvent.team_name)}
-                {currentEvent.event_type && ` • ${currentEvent.event_type}`}
-              </p>
-              {currentEvent.player_name_2 && (
-                <p className="text-sm text-foreground/70">
-                  With: {currentEvent.player_name_2}
-                </p>
-              )}
-            </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold">
-                {currentEvent.goals_for} - {currentEvent.goals_against}
-              </p>
-              <p className="text-xs text-foreground/60">Score</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Stats Display */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className="bg-red-500 border-[3px] border-neutral-800 rounded-sm p-2 text-center">
@@ -461,7 +430,7 @@ export default function GameFlowRink({
                 </text>
 
                 {/* Event type detail */}
-                {event.event_type && (
+                {event.event_type && event.event_type !== "NaN" && (
                   <text
                     x={boxLeft + boxWidth / 2}
                     y={isNearTop ? boxY + 50 : boxY - boxHeight + 50}
@@ -538,6 +507,37 @@ export default function GameFlowRink({
           })}
         </svg>
       </div>
+
+      {/* Current Event Info */}
+      {currentEvent && (
+        <div className="my-4 p-4 bg-neutral-100 border-[3px] border-neutral-800 rounded-sm">
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-lg font-bold">
+                {getEventLabel(currentEvent)}{" "}
+                {currentEvent.player_name && `- ${currentEvent.player_name}`}
+              </p>
+              <p className="text-sm text-foreground/70">
+                Period {currentEvent.period} •{" "}
+                {formatTime(currentEvent.clock_seconds)} •{" "}
+                {cleanTeamName(currentEvent.team_name)}
+                {currentEvent.event_type && ` • ${currentEvent.event_type}`}
+              </p>
+              {currentEvent.player_name_2 && (
+                <p className="text-sm text-foreground/70">
+                  With: {currentEvent.player_name_2}
+                </p>
+              )}
+            </div>
+            <div className="text-right">
+              <p className="text-2xl font-bold">
+                {currentEvent.goals_for} - {currentEvent.goals_against}
+              </p>
+              <p className="text-xs text-foreground/60">Score</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Slider Controls */}
       <div className="mt-6">
