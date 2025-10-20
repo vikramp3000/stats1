@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request
-# from flask_cors import CORS
+from flask_cors import CORS
 from database import get_db_connection, get_db_cursor
 
 app = Flask(__name__)
-# CORS(app)  # Enable CORS for Next.js frontend
+CORS(app)  # Enable CORS for Next.js frontend
 
 # Configuration
 MAX_LIMIT = 2000    # Don't let users request too much data//default is 2000
