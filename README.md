@@ -1,6 +1,6 @@
 # 🏒 NHL Women's Olympic Hockey Stats Dashboard
 
-An interactive web application for analyzing play-by-play data from the 2022 Women's Olympic Hockey Tournament. Built with Next.js, Flask, and PostgreSQL.
+An interactive web application for analyzing play-by-play data from the 2022 Women's Olympic Hockey Tournament. Built with Next.js, Flask, and PostgreSQL. This project uses play-by-play data from the [Stathletes Big Data Cup](https://github.com/bigdatacup/Big-Data-Cup-2021), specifically the 2022 Women's Olympic Hockey Tournament dataset.
 
 ![Tech Stack](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![Flask](https://img.shields.io/badge/Flask-3.0-blue?logo=flask)
@@ -77,3 +77,8 @@ Watch plays unfold in real-time with our animated rink visualization.
 Analyze shooting patterns and success rates with interactive rink charts.
 
 ![Rink Shot Chart](https://i.imgur.com/m8zQv6L.png)
+
+## 🙏 Acknowledgments
+
+- Data provided by Stathletes and the Big Data Cup
+- Special thanks to the hockey analytics community
