@@ -173,14 +173,14 @@ export default function PlayersTable({
                   <Button
                     asChild
                     size="sm"
-                    className="border-[3px] bg-amber-500 hover:bg-amber-600 rounded-sm font-bold"
+                    className="border-[3px] bg-amber-500 hover:bg-amber-600 rounded-sm font-bold text-white text-md border-neutral-800"
                   >
                     <Link
                       href={`/players/${encodeURIComponent(
                         player.player_name
                       )}`}
                     >
-                      View Details
+                      View Charts
                     </Link>
                   </Button>
                 </td>

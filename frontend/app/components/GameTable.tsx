@@ -161,7 +161,7 @@ export default function GamesTable({
                     <Button
                       asChild
                       size="sm"
-                      className="border-[3px] border-neutral-800 bg-blue-500 hover:bg-blue-600 rounded-sm font-bold"
+                      className="border-[3px] border-neutral-800 bg-blue-500 hover:bg-blue-600 rounded-sm font-bold text-white text-md"
                     >
                       <Link
                         href={`/games/${encodeURIComponent(
