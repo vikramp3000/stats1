@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getPlayerDetail, getTeamAverages } from "@/lib/api";
 import { PlayerDetailResponse, TeamAverages } from "@/lib/types";
 import { cleanTeamName, getInitials } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import RinkChart from "@/app/components/RinkChart";
 import StatCard from "@/app/components/StatCard";
 import GameByGameTable from "@/app/components/GameByGameTable";

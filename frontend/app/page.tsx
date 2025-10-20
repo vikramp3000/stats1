@@ -7,7 +7,7 @@ export default function Home() {
       <div className="max-w-[60%] mx-auto mb-12">
         <div className="bg-neutral-300 border-[3px] border-neutral-800 rounded-sm p-12 text-center text-neutral-800">
           <h1 className="text-6xl font-bold mb-4">
-            🏒 2022 Women's Olympic Hockey
+            🏒 2022 Women&apos;s Olympic Hockey
           </h1>
           <p className="text-2xl text-foreground/70 mb-2">
             2022 Olympics Play-by-Play Analytics
@@ -137,7 +137,7 @@ export default function Home() {
       {/* Features Details */}
       <div className="max-w-[60%] mx-auto">
         <div className="bg-neutral-300 border-[3px] border-neutral-800 rounded-sm p-8">
-          <h2 className="text-3xl font-bold mb-6">What's Included</h2>
+          <h2 className="text-3xl font-bold mb-6">What&apos;s Included</h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm p-6">

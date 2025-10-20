@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getGameDetail } from "@/lib/api";
 import { GameDetailResponse } from "@/lib/types";
 import { cleanTeamName } from "@/lib/utils";
-import EventsTable from "@/app/components/EventsTable";
+// import EventsTable from "@/app/components/EventsTable";
 import GameFlowRink from "@/app/components/GameFlowRink";
 import RinkChart from "@/app/components/RinkChart";
 
