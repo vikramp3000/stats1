@@ -20,30 +20,31 @@ def load_csv_to_db(csv_path):
         df[col] = pd.to_numeric(df[col], errors='coerce')
     
     print(f"Connecting to database...")
-    conn = get_db_connection()
-    cur = conn.cursor()
     
-    print(f"Inserting {len(df)} rows...")
-    
-    # Insert data row by row
-    insert_query = """
-        INSERT INTO play_by_play (
-            game_date, season_year, team_name, opp_team_name, venue,
-            period, clock_seconds, situation_type, goals_for, goals_against,
-            player_name, event, event_successful, x_coord, y_coord,
-            event_type, player_name_2, x_coord_2, y_coord_2,
-            event_detail_1, event_detail_2, event_detail_3
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    
-    for idx, row in df.iterrows():
-        cur.execute(insert_query, tuple(row))
-        if (idx + 1) % 1000 == 0:
-            print(f"Inserted {idx + 1} rows...")
-    
-    conn.commit()
-    cur.close()
-    conn.close()
+    # FIX: Use context manager properly
+    with get_db_connection() as conn:
+        cur = conn.cursor()
+        
+        print(f"Inserting {len(df)} rows...")
+        
+        # Insert data row by row
+        insert_query = """
+            INSERT INTO play_by_play (
+                game_date, season_year, team_name, opp_team_name, venue,
+                period, clock_seconds, situation_type, goals_for, goals_against,
+                player_name, event, event_successful, x_coord, y_coord,
+                event_type, player_name_2, x_coord_2, y_coord_2,
+                event_detail_1, event_detail_2, event_detail_3
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        
+        for idx, row in df.iterrows():
+            cur.execute(insert_query, tuple(row))
+            if (idx + 1) % 1000 == 0:
+                print(f"Inserted {idx + 1} rows...")
+        
+        conn.commit()
+        cur.close()
     
     print(f"✓ Successfully loaded {len(df)} rows into database!")
 
