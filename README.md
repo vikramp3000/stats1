@@ -9,7 +9,7 @@ An interactive web application for analyzing play-by-play data from the 2022 Wom
 
 ## 🌐 Live Demo
 
-- **Frontend**: stats1-sand.vercel.app
+- **Frontend**: https://stats1-sand.vercel.app
 - **Backend API**: https://stats1.onrender.com
 
 ## ✨ Features
