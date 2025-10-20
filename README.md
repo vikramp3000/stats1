@@ -9,8 +9,8 @@ An interactive web application for analyzing play-by-play data from the 2022 Wom
 
 ## 🌐 Live Demo
 
-- **Frontend**: [Your Vercel URL]
-- **Backend API**: [Your Render URL]
+- **Frontend**: stats1-sand.vercel.app
+- **Backend API**: https://stats1.onrender.com
 
 ## ✨ Features
 
@@ -57,3 +57,23 @@ An interactive web application for analyzing play-by-play data from the 2022 Wom
 - **Database**: PostgreSQL (Neon serverless)
 - **ORM**: psycopg2
 - **Data**: 10,000+ play-by-play events
+
+## 📸 Screenshots
+
+### Main Dashboard
+
+Explore teams, players, and game flow analysis from the interactive homepage.
+
+![Homepage Dashboard](https://i.imgur.com/zkdWATa.png)
+
+### Game Flow Visualization
+
+Watch plays unfold in real-time with our animated rink visualization.
+
+![Game Flow Analysis](https://i.imgur.com/7jAUqcG.png)
+
+### Shot Charts
+
+Analyze shooting patterns and success rates with interactive rink charts.
+
+![Rink Shot Chart](https://i.imgur.com/m8zQv6L.png)
