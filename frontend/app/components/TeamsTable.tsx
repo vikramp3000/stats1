@@ -144,7 +144,7 @@ export default function TeamsTable({
                     className="border-[3px] bg-green-500 hover:bg-green-600 rounded-sm font-bold text-white text-md border-neutral-800"
                   >
                     <Link href={`/teams/${encodeURIComponent(team.team_name)}`}>
-                      View Details
+                      View Charts
                     </Link>
                   </Button>
                 </td>
