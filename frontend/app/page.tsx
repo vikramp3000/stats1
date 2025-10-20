@@ -32,7 +32,6 @@ export default function Home() {
               {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">🏒</div>
-                {/* Replace with: <Image src="/game-flow-preview.png" alt="Game Flow" width={400} height={300} className="object-cover" /> */}
               </div>
 
               <h3 className="text-2xl font-bold mb-2 text-white">
@@ -58,7 +57,6 @@ export default function Home() {
               {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">🏅</div>
-                {/* Replace with: <Image src="/teams-preview.png" alt="Teams" width={400} height={300} className="object-cover" /> */}
               </div>
 
               <h3 className="text-2xl font-bold mb-2 text-white">
@@ -84,7 +82,6 @@ export default function Home() {
               {/* Image Placeholder */}
               <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
                 <div className="text-6xl">⭐</div>
-                {/* Replace with: <Image src="/players-preview.png" alt="Players" width={400} height={300} className="object-cover" /> */}
               </div>
 
               <h3 className="text-2xl font-bold mb-2 text-white">
