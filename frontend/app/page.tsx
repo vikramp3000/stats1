@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NavigationCard from "./components/NavigationCard";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
           </p>
           <p className="text-lg text-foreground/60">
             Explore comprehensive statistics, game flow analysis, and player
-            performance from the tournament
+            performance from the tournament!
           </p>
         </div>
       </div>
@@ -26,77 +27,50 @@ export default function Home() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Games/Game Flow */}
-          <Link href="/games">
-            <div className="bg-blue-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-blue-600 transition-colors h-full">
-              <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
-                <div className="text-6xl">🏒</div>
-              </div>
+          <NavigationCard
+            href="/games"
+            bgColor="bg-blue-500"
+            hoverColor="hover:bg-blue-600"
+            icon="🏒"
+            title="Game Flow Analysis"
+            description="Interactive play-by-play visualization. Watch events unfold on an animated rink with detailed stats."
+            features={[
+              "Play-by-play event tracking",
+              "Interactive rink visualization",
+              "Team comparisons",
+              "Shot charts",
+            ]}
+          />
 
-              <h3 className="text-2xl font-bold mb-2 text-white">
-                Game Flow Analysis
-              </h3>
-              <p className="text-white/90 mb-3">
-                Interactive play-by-play visualization. Watch events unfold on
-                an animated rink with detailed stats.
-              </p>
+          <NavigationCard
+            href="/teams"
+            bgColor="bg-green-500"
+            hoverColor="hover:bg-green-600"
+            icon="🏅"
+            title="Team Statistics"
+            description="Compare team performance across the tournament. Analyze shooting percentages and zone entries."
+            features={[
+              "5 National teams",
+              "Comprehensive shot charts",
+              "Game-by-game breakdowns",
+              "Team averages",
+            ]}
+          />
 
-              <div className="space-y-1 text-sm text-white/80">
-                <p>• Play-by-play event tracking</p>
-                <p>• Interactive rink visualization</p>
-                <p>• Team comparisons</p>
-                <p>• Shot charts</p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Teams */}
-          <Link href="/teams">
-            <div className="bg-green-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-green-600 transition-colors h-full">
-              <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
-                <div className="text-6xl">🏅</div>
-              </div>
-
-              <h3 className="text-2xl font-bold mb-2 text-white">
-                Team Statistics
-              </h3>
-              <p className="text-white/90 mb-3">
-                Compare team performance across the tournament. Analyze shooting
-                percentages and zone entries.
-              </p>
-
-              <div className="space-y-1 text-sm text-white/80">
-                <p>• 5 National teams</p>
-                <p>• Comprehensive shot charts</p>
-                <p>• Game-by-game breakdowns</p>
-                <p>• Team averages</p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Players */}
-          <Link href="/players">
-            <div className="bg-amber-500 border-[3px] border-neutral-800 rounded-sm p-6 hover:bg-amber-600 transition-colors h-full">
-              <div className="bg-neutral-100 border-[3px] border-neutral-800 rounded-sm h-40 mb-4 flex items-center justify-center">
-                <div className="text-6xl">⭐</div>
-              </div>
-
-              <h3 className="text-2xl font-bold mb-2 text-white">
-                Player Performance
-              </h3>
-              <p className="text-white/90 mb-3">
-                Individual player statistics. Track goals, assists, shooting
-                accuracy, and advanced metrics.
-              </p>
-
-              <div className="space-y-1 text-sm text-white/80">
-                <p>• 100+ Athletes tracked</p>
-                <p>• Individual event tracking</p>
-                <p>• Performance rankings</p>
-                <p>• Detailed breakdowns</p>
-              </div>
-            </div>
-          </Link>
+          <NavigationCard
+            href="/players"
+            bgColor="bg-amber-500"
+            hoverColor="hover:bg-amber-600"
+            icon="⭐"
+            title="Player Performance"
+            description="Individual player statistics. Track goals, assists, shooting accuracy, and advanced metrics."
+            features={[
+              "100+ Athletes tracked",
+              "Individual event tracking",
+              "Performance rankings",
+              "Detailed breakdowns",
+            ]}
+          />
         </div>
       </div>
 
