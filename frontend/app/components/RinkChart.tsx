@@ -91,7 +91,7 @@ export default function RinkChart({
           onClick={() => setShowGoals(!showGoals)}
           variant={showGoals ? "default" : "neutral"}
           size="lg"
-          className={`border-[3px] rounded-sm font-bold ${
+          className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
             showGoals
               ? "bg-red-500 border-neutral-800"
               : "bg-neutral-50 border-neutral-800"
@@ -104,7 +104,7 @@ export default function RinkChart({
           onClick={() => setShowShots(!showShots)}
           variant={showShots ? "default" : "neutral"}
           size="lg"
-          className={`border-[3px] rounded-sm font-bold ${
+          className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
             showShots
               ? "bg-blue-500 border-neutral-800"
               : "bg-neutral-50 border-neutral-800"
@@ -117,7 +117,7 @@ export default function RinkChart({
           onClick={() => setShowPasses(!showPasses)}
           variant={showPasses ? "default" : "neutral"}
           size="lg"
-          className={`border-[3px] rounded-sm font-bold ${
+          className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
             showPasses
               ? "bg-green-500 text-neutral-800 border-neutral-800"
               : "bg-neutral-50 border-neutral-800"

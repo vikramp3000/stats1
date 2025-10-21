@@ -141,7 +141,7 @@ export default function TeamsTable({
                   <Button
                     asChild
                     size="sm"
-                    className="border-[3px] bg-green-500 hover:bg-green-600 rounded-sm font-bold text-white text-md border-neutral-800"
+                    className="border-[3px] bg-green-500 hover:bg-green-600 rounded-sm font-bold text-white text-md border-neutral-800 shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px]"
                   >
                     <Link href={`/teams/${encodeURIComponent(team.team_name)}`}>
                       View Charts

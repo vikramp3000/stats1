@@ -547,7 +547,7 @@ export default function GameFlowRink({
               setCurrentEventIndex(Math.max(0, currentEventIndex - 1))
             }
             disabled={currentEventIndex === 0}
-            className="px-4 py-2 bg-neutral-200 border-[3px] border-neutral-800 rounded-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-300"
+            className="px-4 py-2 bg-neutral-200 border-[3px] border-neutral-800 rounded-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-300 shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px]"
           >
             ← Prev
           </button>
@@ -578,7 +578,7 @@ export default function GameFlowRink({
               )
             }
             disabled={currentEventIndex === eventsWithCoords.length - 1}
-            className="px-4 py-2 bg-neutral-200 border-[3px] border-neutral-800 rounded-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-300"
+            className="px-4 py-2 bg-neutral-200 border-[3px] border-neutral-800 rounded-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-300 shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px]"
           >
             Next →
           </button>

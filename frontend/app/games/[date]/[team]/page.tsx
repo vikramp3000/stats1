@@ -315,11 +315,11 @@ export default function GameDetailPage() {
         {/* Rink Chart - Right Side */}
         <div className="flex-1">
           {/* Team View Toggle Buttons */}
-          <div className="flex gap-3 mb-4">
+          <div className="flex gap-3 mb-4 justify-center">
             <Button
               onClick={() => setTeamView("home")}
               size="lg"
-              className={`border-[3px] rounded-sm font-bold ${
+              className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
                 teamView === "home"
                   ? "bg-amber-500 text-white border-neutral-800 hover:bg-amber-600"
                   : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
@@ -330,7 +330,7 @@ export default function GameDetailPage() {
             <Button
               onClick={() => setTeamView("away")}
               size="lg"
-              className={`border-[3px] rounded-sm font-bold ${
+              className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
                 teamView === "away"
                   ? "bg-violet-500 text-white border-neutral-800 hover:bg-violet-700"
                   : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
@@ -341,7 +341,7 @@ export default function GameDetailPage() {
             <Button
               onClick={() => setTeamView("combined")}
               size="lg"
-              className={`border-[3px] rounded-sm font-bold ${
+              className={`border-[3px] rounded-sm font-bold shadow-[4px_4px_0px_0px_rgb(38,38,38)] hover:shadow-[2px_2px_0px_0px_rgb(38,38,38)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 active:shadow-[0px_0px_0px_0px_rgb(38,38,38)] active:translate-x-[4px] active:translate-y-[4px] ${
                 teamView === "combined"
                   ? "bg-green-500 text-white border-neutral-800 hover:bg-green-600"
                   : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
