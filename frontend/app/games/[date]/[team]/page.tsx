@@ -8,6 +8,7 @@ import { GameDetailResponse } from "@/lib/types";
 import { cleanTeamName } from "@/lib/utils";
 import GameFlowRink from "@/app/components/GameFlowRink";
 import RinkChart from "@/app/components/RinkChart";
+import { Button } from "@/components/ui/button";
 
 export default function GameDetailPage() {
   const params = useParams();
@@ -16,6 +17,9 @@ export default function GameDetailPage() {
   const [data, setData] = useState<GameDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [teamView, setTeamView] = useState<"home" | "away" | "combined">(
+    "combined"
+  );
 
   useEffect(() => {
     getGameDetail(gameDate, teamName)
@@ -29,7 +33,7 @@ export default function GameDetailPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen p-8 w-3/4 mx-auto">
+      <main className="min-h-screen p-8 w-[60%] mx-auto">
         <p>Loading game details...</p>
       </main>
     );
@@ -37,7 +41,7 @@ export default function GameDetailPage() {
 
   if (error || !data) {
     return (
-      <main className="min-h-screen p-8 w-3/4 mx-auto">
+      <main className="min-h-screen p-8 w-[60%] mx-auto">
         <Link href="/games" className="hover:underline mb-4 inline-block">
           ← Back to Games
         </Link>
@@ -48,6 +52,25 @@ export default function GameDetailPage() {
 
   const { game, events } = data;
 
+  // Filter events based on selected team view
+  const filteredEvents =
+    teamView === "combined"
+      ? events
+      : events.filter(
+          (e) =>
+            e.team_name ===
+            (teamView === "home" ? game.team_name : game.opp_team_name)
+        );
+
+  // Get the title based on view
+  const getRinkChartTitle = () => {
+    if (teamView === "home") return `${cleanTeamName(game.team_name)} Events`;
+    if (teamView === "away")
+      return `${cleanTeamName(game.opp_team_name)} Events`;
+    return "Game Events - Combined";
+  };
+
+  // Format the date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -291,8 +314,46 @@ export default function GameDetailPage() {
 
         {/* Rink Chart - Right Side */}
         <div className="flex-1">
+          {/* Team View Toggle Buttons */}
+          <div className="flex gap-3 mb-4">
+            <Button
+              onClick={() => setTeamView("home")}
+              size="lg"
+              className={`border-[3px] rounded-sm font-bold ${
+                teamView === "home"
+                  ? "bg-amber-500 text-white border-neutral-800 hover:bg-amber-600"
+                  : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
+              }`}
+            >
+              {cleanTeamName(game.team_name)}
+            </Button>
+            <Button
+              onClick={() => setTeamView("away")}
+              size="lg"
+              className={`border-[3px] rounded-sm font-bold ${
+                teamView === "away"
+                  ? "bg-violet-500 text-white border-neutral-800 hover:bg-violet-700"
+                  : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
+              }`}
+            >
+              {cleanTeamName(game.opp_team_name)}
+            </Button>
+            <Button
+              onClick={() => setTeamView("combined")}
+              size="lg"
+              className={`border-[3px] rounded-sm font-bold ${
+                teamView === "combined"
+                  ? "bg-green-500 text-white border-neutral-800 hover:bg-green-600"
+                  : "bg-neutral-50 text-neutral-800 border-neutral-800 hover:bg-neutral-200"
+              }`}
+            >
+              Combined
+            </Button>
+          </div>
+
+          {/* RinkChart with filtered events */}
           <RinkChart
-            events={events.map((event) => ({
+            events={filteredEvents.map((event) => ({
               x_coord: event.x_coord || 0,
               y_coord: event.y_coord || 0,
               event: event.event,
@@ -306,7 +367,7 @@ export default function GameDetailPage() {
               x_coord_2: event.x_coord_2,
               y_coord_2: event.y_coord_2,
             }))}
-            title="Game Events - Combined"
+            title={getRinkChartTitle()}
           />
         </div>
       </div>

@@ -74,8 +74,8 @@ export interface PlayerEvent {
   x_coord: number | null;
   y_coord: number | null;
   player_name_2: string | null;
-  x_coord_2: number | null; // Add
-  y_coord_2: number | null; // Add
+  x_coord_2: number | null;
+  y_coord_2: number | null;
   event_detail_1: string | null;
   event_detail_2: string | null;
   event_detail_3: string | null;
@@ -92,8 +92,8 @@ export interface PlayerGame {
   goals: number;
   shots: number;
   passes: number;
-  score_for: number; // Add
-  score_against: number; // Add
+  score_for: number;
+  score_against: number;
 }
 
 export interface PlayerDetailResponse {
@@ -155,8 +155,8 @@ export interface TeamGame {
   goals: number;
   shots: number;
   passes: number;
-  score_for: number; // Add
-  score_against: number; // Add
+  score_for: number;
+  score_against: number;
 }
 
 export interface TeamDetailResponse {
